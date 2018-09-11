@@ -12,8 +12,8 @@ public class GenericDao {
 
 		String hostName = "localhost";
 		String dbName = "aulacall";
-		String user = "leandro";
-		String senha = "123456";
+		String user = "jooj";
+		String senha = "1234abcd";
 		Class.forName("net.sourceforge.jtds.jdbc.Driver");
 		c = DriverManager.getConnection(String.format(
 				"jdbc:jtds:sqlserver://%s:1433;databaseName=%s;user=%s;password=%s;", hostName, dbName, user, senha));
