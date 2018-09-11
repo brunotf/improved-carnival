@@ -17,16 +17,14 @@ public class ProdutoDao {
 	}
 
 	public String insereProduto(Produto p) throws SQLException {
-		String sql = "{CALL sp_insereproduto(?, ?}";
+		String sql = "{CALL sp_insereproduto(?,?)}";
 		CallableStatement cs = c.prepareCall(sql);
 		cs.setString(1, p.getNome());
 		cs.registerOutParameter(2, Types.VARCHAR);
 		cs.execute();
-
 		String saida = cs.getString(2);
 		cs.close();
 
 		return saida;
 	}
-
 }

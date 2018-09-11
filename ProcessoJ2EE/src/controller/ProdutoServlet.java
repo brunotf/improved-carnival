@@ -33,7 +33,8 @@ public class ProdutoServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			request.setAttribute("saida", saida);
 			rd.forward(request, response);
-
+			
+			// https://bitbucket.org/lecolevati/
 		}
 	}
 
