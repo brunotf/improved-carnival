@@ -9,7 +9,7 @@
 <body>
 
 	<div align="center">
-		<form action="insereProduto" method="post">
+		<form action="./insereProduto" method="post">
 			<table>
 				<tr>
 					<td><input type="text" name="nome" id="nome"
