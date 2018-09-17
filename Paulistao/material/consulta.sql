@@ -78,45 +78,72 @@ AS
 		IF (@CLUBE = 'São Paulo Futebol Clube')
 		BEGIN
 			SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-			IF (@SAOPAULO != @CABECADECHAVE)
+			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+			IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 			BEGIN
-				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-				IF (@CONTADOR < 5)
-				BEGIN 
-					INSERT INTO grupos VALUES ('A', @SAOPAULO)
+				INSERT INTO grupos VALUES ('A', @SAOPAULO)
+			END
+			ELSE
+			BEGIN
+				SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
+				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
+				IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
+				BEGIN
+					INSERT INTO grupos VALUES ('B', @SAOPAULO)
 				END
 				ELSE
 				BEGIN
-					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-					IF (@SAOPAULO != @CABECADECHAVE)
+					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
+					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
+					IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 					BEGIN
-						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-						IF (@CONTADOR < 5)
-						BEGIN 
-							INSERT INTO grupos VALUES ('B', @SAOPAULO)
+						INSERT INTO grupos VALUES ('C', @SAOPAULO)
+					END
+					ELSE
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
+						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
+						IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
+						BEGIN
+							INSERT INTO grupos VALUES ('D', @SAOPAULO)
+						END
+					END
+				END
+			END
+		END
+		ELSE
+		BEGIN
+			IF (@CLUBE = 'Sociedade Esporte Palmeiras')
+			BEGIN
+				SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+				IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+				BEGIN
+					INSERT INTO grupos VALUES ('A', @PALMEIRAS)
+				END
+				ELSE
+				BEGIN
+					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
+					IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+					BEGIN
+						INSERT INTO grupos VALUES ('B', @PALMEIRAS)
+					END
+					ELSE
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
+						IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+						BEGIN
+							INSERT INTO grupos VALUES ('C', @PALMEIRAS)
 						END
 						ELSE
 						BEGIN
-							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-							IF (@SAOPAULO != @CABECADECHAVE)
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+							SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
+							IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
 							BEGIN
-								SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-								IF (@CONTADOR < 5)
-								BEGIN 
-									INSERT INTO grupos VALUES ('C', @SAOPAULO)
-								END
-								ELSE
-								BEGIN
-									SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-									IF (@SAOPAULO != @CABECADECHAVE)
-									BEGIN
-										SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-										IF (@CONTADOR < 5)
-										BEGIN
-											INSERT INTO grupos VALUES ('D', @SAOPAULO)
-										END
-									END
-								END
+								INSERT INTO grupos VALUES ('D', @PALMEIRAS)
 							END
 						END
 					END
@@ -124,46 +151,134 @@ AS
 			END
 			ELSE
 			BEGIN
-			SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-			IF (@SAOPAULO != @CABECADECHAVE)
-			BEGIN
-				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-				IF (@CONTADOR < 5)
-				BEGIN 
-					INSERT INTO grupos VALUES ('B', @SAOPAULO)
-				END
-				ELSE
+				IF (@CLUBE = 'Sport Club Corinthians Paulista')
 				BEGIN
-					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-					IF (@SAOPAULO != @CABECADECHAVE)
+					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+					IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 					BEGIN
-						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-						IF (@CONTADOR < 5)
-						BEGIN 
-							INSERT INTO grupos VALUES ('C', @SAOPAULO)
+						INSERT INTO grupos VALUES ('A', @CURINTIA)
+					END
+					ELSE
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
+						IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
+						BEGIN
+							INSERT INTO grupos VALUES ('B', @CURINTIA)
 						END
 						ELSE
 						BEGIN
-							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-							IF (@SAOPAULO != @CABECADECHAVE)
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+							SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
+							IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 							BEGIN
+								INSERT INTO grupos VALUES ('C', @CURINTIA)
+							END
+							ELSE
+							BEGIN
+								SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
 								SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-								IF (@CONTADOR < 5)
+								IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 								BEGIN
-									INSERT INTO grupos VALUES ('D', @SAOPAULO)
+									INSERT INTO grupos VALUES ('D', @CURINTIA)
 								END
 							END
 						END
 					END
 				END
+				ELSE
+				BEGIN
+					IF (@CLUBE = 'Santos Futebol Clube')
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+						IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+						BEGIN
+							INSERT INTO grupos VALUES ('A', @SANTOS)
+						END
+						ELSE
+						BEGIN
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+							SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
+							IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+							BEGIN
+								INSERT INTO grupos VALUES ('B', @SANTOS)
+							END
+							ELSE
+							BEGIN
+								SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+								SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
+								IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+								BEGIN
+									INSERT INTO grupos VALUES ('C', @SANTOS)
+								END
+								ELSE
+								BEGIN
+									SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+									SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
+									IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+									BEGIN
+										INSERT INTO grupos VALUES ('D', @SANTOS)
+									END
+									ELSE
+									BEGIN
+										RAISERROR ('CABECAS DE CHAVES NA MESMA CHAVE', 16, 1)
+									END
+								END
+							END
+						END
+					END				
+				END
 			END
-
-
-
-
 		END
 	END
-									
+	ELSE
+	BEGIN
+		SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+		IF (@CONTADOR < 5)
+		BEGIN
+			INSERT INTO grupos VALUES ('A', @CLUBE)
+		END
+		ELSE
+		BEGIN
+			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
+			IF (@CONTADOR < 5)
+			BEGIN
+				INSERT INTO grupos VALUES ('B', @CLUBE)
+			END
+			ELSE
+			BEGIN
+				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
+				IF (@CONTADOR < 5)
+				BEGIN
+					INSERT INTO grupos VALUES ('C', @CLUBE)
+				END
+				ELSE
+				BEGIN
+					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
+					IF (@CONTADOR < 5)
+					BEGIN
+						INSERT INTO grupos VALUES ('D', @CLUBE)
+					END
+					ELSE
+					BEGIN
+						RAISERROR ('GRUPOS CHEIOS', 16, 1)
+					END
+				END
+			END
+		END
+	END
+
+	SET @out = 'GRUPOS DEFINIDOS COM SUCESSO!'
+
+	
+	
+DECLARE @SAIDA VARCHAR(MAX)
+EXEC sp_dividirGrupos 'Santos Futebol Clube', @SAIDA OUTPUT
+PRINT @SAIDA
+
+
 
 
 	--	BEGIN TRY
