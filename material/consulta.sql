@@ -74,9 +74,27 @@ DECLARE @SAIDA VARCHAR(MAX)
 exec sp_dividirGrupos 'São Paulo Futebol Clube', @SAIDA
 PRINT @SAIDA
 
-declare @CABECADECHAVE VARCHAR(MAX)
-SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-print ''
+DECLARE @SAIDA VARCHAR(MAX)
+exec sp_dividirGrupos 'Santos Futebol Clube', @SAIDA
+PRINT @SAIDA
+
+DECLARE @CONTADOR INT,
+		@CLUBEID INT,
+		@CABECADECHAVE INT,
+		@SAOPAULO INT,
+		@SANTOS INT,
+		@PALMEIRAS INT,
+		@CURINTIA INT
+
+SET @SAOPAULO = (SELECT idTime FROM times WHERE nomeTime = 'São Paulo Futebol Clube')
+SET @SANTOS = (SELECT idTime FROM times WHERE nomeTime = 'Santos Futebol Clube')
+SET @PALMEIRAS = (SELECT idTime FROM times WHERE nomeTime = 'Sociedade Esporte Palmeiras')
+SET @CURINTIA = (SELECT idTime FROM times WHERE nomeTime = 'Sport Club Corinthians Paulista')
+
+SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
+								(grupo = 'A' AND idTime = @CURINTIA) OR
+								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'A' AND idTime = @SAOPAULO)
 
 DROP PROCEDURE sp_dividirGrupos
 
@@ -104,10 +122,14 @@ AS
 	BEGIN
 		IF (@CLUBE = 'São Paulo Futebol Clube')
 		BEGIN
-			IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
-				BEGIN
-					SET @CABECADECHAVE = 0
-				END
+			IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
+															(grupo = 'A' AND idTime = @CURINTIA) OR
+															(grupo = 'A' AND idTime = @PALMEIRAS) OR 
+															(grupo = 'A' AND idTime = @SAOPAULO))
+			BEGIN
+				SET @CABECADECHAVE = 0
+			END
+
 			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
 			IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 			BEGIN
@@ -121,7 +143,10 @@ AS
 			END
 			ELSE
 			BEGIN
-				IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
+				IF NOT EXISTS(SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR
+																(grupo = 'B' AND idTime = @CURINTIA) OR
+																(grupo = 'B' AND idTime = @PALMEIRAS) OR 
+																(grupo = 'B' AND idTime = @SAOPAULO))
 				BEGIN
 					SET @CABECADECHAVE = 0
 				END
@@ -138,7 +163,10 @@ AS
 				END
 				ELSE
 				BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
+						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
+								(grupo = 'C' AND idTime = @CURINTIA) OR
+								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'C' AND idTime = @SAOPAULO))
 				BEGIN
 					SET @CABECADECHAVE = 0
 				END
@@ -155,7 +183,10 @@ AS
 					END
 					ELSE
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
+						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
+								(grupo = 'D' AND idTime = @CURINTIA) OR
+								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'D' AND idTime = @SAOPAULO))
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
@@ -178,7 +209,10 @@ AS
 		BEGIN
 			IF (@CLUBE = 'Sociedade Esporte Palmeiras')
 			BEGIN
-				IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+				IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
+								(grupo = 'A' AND idTime = @CURINTIA) OR
+								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'A' AND idTime = @SAOPAULO))
 				BEGIN
 					SET @CABECADECHAVE = 0
 				END
@@ -195,7 +229,10 @@ AS
 				END
 				ELSE
 				BEGIN
-					IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+					IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR 
+								(grupo = 'B' AND idTime = @CURINTIA) OR
+								(grupo = 'B' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'B' AND idTime = @SAOPAULO))
 					BEGIN
 						SET @CABECADECHAVE = 0
 					END
@@ -212,7 +249,10 @@ AS
 					END
 					ELSE
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
+								(grupo = 'C' AND idTime = @CURINTIA) OR
+								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'C' AND idTime = @SAOPAULO))
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
@@ -229,7 +269,10 @@ AS
 						END
 						ELSE
 						BEGIN
-							IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @SAOPAULO)
+							IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
+								(grupo = 'D' AND idTime = @CURINTIA) OR
+								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'D' AND idTime = @SAOPAULO))
 							BEGIN
 								SET @CABECADECHAVE = 0
 							END
@@ -252,7 +295,10 @@ AS
 			BEGIN
 				IF (@CLUBE = 'Sport Club Corinthians Paulista')
 				BEGIN
-					IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+					IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
+								(grupo = 'A' AND idTime = @CURINTIA) OR
+								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'A' AND idTime = @SAOPAULO))
 					BEGIN
 						SET @CABECADECHAVE = 0
 					END
@@ -269,7 +315,10 @@ AS
 					END
 					ELSE
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR 
+								(grupo = 'B' AND idTime = @CURINTIA) OR
+								(grupo = 'B' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'B' AND idTime = @SAOPAULO))
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
@@ -286,7 +335,10 @@ AS
 						END
 						ELSE
 						BEGIN
-							IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+							IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
+								(grupo = 'C' AND idTime = @CURINTIA) OR
+								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'C' AND idTime = @SAOPAULO))
 							BEGIN
 								SET @CABECADECHAVE = 0
 							END
@@ -303,7 +355,10 @@ AS
 							END
 							ELSE
 							BEGIN
-								IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @SANTOS OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+								IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
+								(grupo = 'D' AND idTime = @CURINTIA) OR
+								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'D' AND idTime = @SAOPAULO))
 								BEGIN
 									SET @CABECADECHAVE = 0
 								END
@@ -326,7 +381,10 @@ AS
 				BEGIN
 					IF (@CLUBE = 'Santos Futebol Clube')
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
+								(grupo = 'A' AND idTime = @CURINTIA) OR
+								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'A' AND idTime = @SAOPAULO))
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
@@ -343,7 +401,10 @@ AS
 						END
 						ELSE
 						BEGIN
-							IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'B' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+							IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR 
+								(grupo = 'B' AND idTime = @CURINTIA) OR
+								(grupo = 'B' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'B' AND idTime = @SAOPAULO))
 							BEGIN
 								SET @CABECADECHAVE = 0
 							END
@@ -360,7 +421,10 @@ AS
 							END
 							ELSE
 							BEGIN
-								IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'C' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+								IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
+								(grupo = 'C' AND idTime = @CURINTIA) OR
+								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'C' AND idTime = @SAOPAULO))
 								BEGIN
 									SET @CABECADECHAVE = 0
 								END
@@ -377,7 +441,10 @@ AS
 								END
 								ELSE
 								BEGIN
-									IF NOT EXISTS (SELECT idTime FROM grupos WHERE grupo = 'D' AND idTime = @CURINTIA OR idTime = @PALMEIRAS OR idTime = @SAOPAULO)
+									IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
+								(grupo = 'D' AND idTime = @CURINTIA) OR
+								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
+								(grupo = 'D' AND idTime = @SAOPAULO))
 									BEGIN
 										SET @CABECADECHAVE = 0
 									END
