@@ -8,7 +8,7 @@ public class DBUtil {
 
 	private final static String USERNAME = "galvao";
 	private final static String PASSWORD = "bueno";
-	private final static String URLDB = "jdbc:jtds:sqlserver://localhost:1433;databaseName=paulistao";
+	private final static String URLDB = "jdbc:jtds:sqlserver://localhost:1433/paulistao";
 	private static DBUtil instancia;
 	private Connection con;
 

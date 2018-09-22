@@ -35,7 +35,7 @@ SELECT COUNT (idTime) FROM times AS QTD WHERE idTime <= 5
 
 CREATE TABLE grupos (
 	grupo CHAR(1) NOT NULL,
-	idTime INT,
+	idTime INT PRIMARY KEY,
 	FOREIGN KEY (idTime) REFERENCES times(idTime)
 )
 
@@ -53,9 +53,29 @@ CREATE TABLE rodada (
 	FOREIGN KEY (dataRodada) REFERENCES jogos(dataJogo)
 )
 
-CREATE PROCEDURE sp_dividirGrupos(@CLUBE VARCHAR(100), @out VARCHAR(MAX) OUTPUT)
+CREATE PROCEDURE sp_obterNomes(@IDTIME INT, @OUT VARCHAR(MAX) OUTPUT) 
+AS
+SELECT nomeTime AS nome
+FROM times t
+INNER JOIN grupos gr
+ON gr.idTime = t.idTime
+
+select * from grupos
+
+INSERT INTO grupos VALUES ('A', 'Sport Club Corinthians Paulista')
+
+DECLARE @SAIDA VARCHAR(MAX)
+exec sp_dividirGrupos 'Ituano Futebol Clube', @SAIDA
+PRINT @SAIDA
+
+DECLARE @SAIDA VARCHAR(MAX)
+exec sp_dividirGrupos 'Ituano Futebol Clube', @SAIDA
+PRINT @SAIDA
+
+CREATE PROCEDURE sp_dividirGrupos(@CLUBE VARCHAR(MAX), @out VARCHAR(MAX) OUTPUT)
 AS
 	DECLARE @CONTADOR INT,
+			@CLUBEID INT,
 			@CABECADECHAVE INT,
 			@SAOPAULO INT,
 			@SANTOS INT,
@@ -67,7 +87,9 @@ AS
 	SET @PALMEIRAS = (SELECT idTime FROM times WHERE nomeTime = 'Sociedade Esporte Palmeiras')
 	SET @CURINTIA = (SELECT idTime FROM times WHERE nomeTime = 'Sport Club Corinthians Paulista')
 
-	IF (@CLUBE = 'São Paulo Futebol Clube' OR 
+	SET @CLUBEID = (SELECT idTime FROM times WHERE nomeTime = @CLUBE)
+
+	IF (@CLUBE = 'São Paulo Futebol Clube' OR
 		@CLUBE = 'Sociedade Esporte Palmeiras' OR
 		@CLUBE = 'Sport Club Corinthians Paulista' OR
 		@CLUBE = 'Santos Futebol Clube')
@@ -76,9 +98,15 @@ AS
 		BEGIN
 			SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE grupo = 'A' AND idTime = @SANTOS OR idTime = @CURINTIA OR idTime = @PALMEIRAS)
 			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+			IF (@CABECADECHAVE = NULL AND @CONTADOR < 5)
+			BEGIN
+				INSERT INTO grupos VALUES ('A', @SAOPAULO)
+				SET @out = 'Time ' + @CLUBE + ' inserido.'
+			END
 			IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 			BEGIN
 				INSERT INTO grupos VALUES ('A', @SAOPAULO)
+				SET @out = 'Time ' + @CLUBE + ' inserido.'
 			END
 			ELSE
 			BEGIN
@@ -87,6 +115,7 @@ AS
 				IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 				BEGIN
 					INSERT INTO grupos VALUES ('B', @SAOPAULO)
+					SET @out = 'Time ' + @CLUBE + ' inserido.'
 				END
 				ELSE
 				BEGIN
@@ -95,6 +124,7 @@ AS
 					IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 					BEGIN
 						INSERT INTO grupos VALUES ('C', @SAOPAULO)
+						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END
 					ELSE
 					BEGIN
@@ -103,6 +133,7 @@ AS
 						IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
 						BEGIN
 							INSERT INTO grupos VALUES ('D', @SAOPAULO)
+							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END
 					END
 				END
@@ -117,6 +148,7 @@ AS
 				IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
 				BEGIN
 					INSERT INTO grupos VALUES ('A', @PALMEIRAS)
+					SET @out = 'Time ' + @CLUBE + ' inserido.'
 				END
 				ELSE
 				BEGIN
@@ -125,6 +157,7 @@ AS
 					IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
 					BEGIN
 						INSERT INTO grupos VALUES ('B', @PALMEIRAS)
+						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END
 					ELSE
 					BEGIN
@@ -133,6 +166,7 @@ AS
 						IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
 						BEGIN
 							INSERT INTO grupos VALUES ('C', @PALMEIRAS)
+							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END
 						ELSE
 						BEGIN
@@ -141,6 +175,7 @@ AS
 							IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
 							BEGIN
 								INSERT INTO grupos VALUES ('D', @PALMEIRAS)
+								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END
 						END
 					END
@@ -155,6 +190,7 @@ AS
 					IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 					BEGIN
 						INSERT INTO grupos VALUES ('A', @CURINTIA)
+						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END
 					ELSE
 					BEGIN
@@ -163,6 +199,7 @@ AS
 						IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 						BEGIN
 							INSERT INTO grupos VALUES ('B', @CURINTIA)
+							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END
 						ELSE
 						BEGIN
@@ -171,6 +208,7 @@ AS
 							IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 							BEGIN
 								INSERT INTO grupos VALUES ('C', @CURINTIA)
+								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END
 							ELSE
 							BEGIN
@@ -179,6 +217,7 @@ AS
 								IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
 								BEGIN
 									INSERT INTO grupos VALUES ('D', @CURINTIA)
+									SET @out = 'Time ' + @CLUBE + ' inserido.'
 								END
 							END
 						END
@@ -193,6 +232,7 @@ AS
 						IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
 						BEGIN
 							INSERT INTO grupos VALUES ('A', @SANTOS)
+							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END
 						ELSE
 						BEGIN
@@ -201,6 +241,7 @@ AS
 							IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
 							BEGIN
 								INSERT INTO grupos VALUES ('B', @SANTOS)
+								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END
 							ELSE
 							BEGIN
@@ -209,6 +250,7 @@ AS
 								IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
 								BEGIN
 									INSERT INTO grupos VALUES ('C', @SANTOS)
+									SET @out = 'Time ' + @CLUBE + ' inserido.'
 								END
 								ELSE
 								BEGIN
@@ -217,6 +259,7 @@ AS
 									IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
 									BEGIN
 										INSERT INTO grupos VALUES ('D', @SANTOS)
+										SET @out = 'Time ' + @CLUBE + ' inserido.'
 									END
 									ELSE
 									BEGIN
@@ -235,28 +278,32 @@ AS
 		SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
 		IF (@CONTADOR < 5)
 		BEGIN
-			INSERT INTO grupos VALUES ('A', @CLUBE)
+			INSERT INTO grupos VALUES ('A', @CLUBEID)
+			SET @out = 'Time ' + @CLUBE + ' inserido.'
 		END
 		ELSE
 		BEGIN
 			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
 			IF (@CONTADOR < 5)
 			BEGIN
-				INSERT INTO grupos VALUES ('B', @CLUBE)
+				INSERT INTO grupos VALUES ('B', @CLUBEID)
+				SET @out = 'Time ' + @CLUBE + ' inserido.'
 			END
 			ELSE
 			BEGIN
 				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
 				IF (@CONTADOR < 5)
 				BEGIN
-					INSERT INTO grupos VALUES ('C', @CLUBE)
+					INSERT INTO grupos VALUES ('C', @CLUBEID)
+					SET @out = 'Time ' + @CLUBE + ' inserido.'
 				END
 				ELSE
 				BEGIN
 					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
 					IF (@CONTADOR < 5)
 					BEGIN
-						INSERT INTO grupos VALUES ('D', @CLUBE)
+						INSERT INTO grupos VALUES ('D', @CLUBEID)
+						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END
 					ELSE
 					BEGIN
@@ -267,21 +314,4 @@ AS
 		END
 	END
 
-	SET @out = 'GRUPOS DEFINIDOS COM SUCESSO!'
-
-	
-	
-DECLARE @SAIDA VARCHAR(MAX)
-EXEC sp_dividirGrupos 'Santos Futebol Clube', @SAIDA OUTPUT
-PRINT @SAIDA
-
-
-
-
-	--	BEGIN TRY
-	--		INSERT INTO grupos VALUES
-	--	END TRY
-	--	BEGIN CATCH
-	--		RAISERROR ('Time já inserido', 16, 1)
-	--	END CATCH
 
