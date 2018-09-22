@@ -6,27 +6,31 @@
 <meta charset="ISO-8859-1">
 <title>Página Inicial</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="./resources/eztilo.css" />
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 </head>
 <body background="./resources/campo.jpg">
 
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active" href="#">Home <span	class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="./mostrargrupos.jsp">Grupos</a>
+				<a class="nav-item nav-link" href="./rodadas.jsp">Rodadas</a>
+				<a class="nav-item nav-link" href="./jogos.jsp">Jogos</a>
 			</div>
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="./index.jsp">Home</a></li>
-				<li><a href="./mostrargrupos.jsp">Grupos</a></li>
-				<li><a href="#">Rodadas</a></li>
-				<li><a href="#">Jogos</a></li>
-			</ul>
 		</div>
 	</nav>
-	
+
 	<h2 align="center">PAULISTÃO 2019</h2>
 	<hr>
 
