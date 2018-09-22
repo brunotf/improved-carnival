@@ -53,18 +53,16 @@ CREATE TABLE rodada (
 	FOREIGN KEY (dataRodada) REFERENCES jogos(dataJogo)
 )
 
-CREATE PROCEDURE sp_obterNomes(@IDTIME INT, @OUT VARCHAR(MAX) OUTPUT) 
+CREATE VIEW v_grupos
 AS
-SELECT nomeTime AS nome
-FROM times t
-INNER JOIN grupos gr
-ON gr.idTime = t.idTime
+SELECT nomeTime, grupo FROM times t
+INNER JOIN grupos g
+ON
+g.idTime = t.idTime
 
-select * from grupos
+SELECT * FROM v_grupos
 
 DROP TABLE grupos
-
-INSERT INTO grupos VALUES ('A', 'Sport Club Corinthians Paulista')
 
 DECLARE @SAIDA VARCHAR(MAX)
 exec sp_dividirGrupos 'Ituano Futebol Clube', @SAIDA
@@ -73,30 +71,6 @@ PRINT @SAIDA
 DECLARE @SAIDA VARCHAR(MAX)
 exec sp_dividirGrupos 'São Paulo Futebol Clube', @SAIDA
 PRINT @SAIDA
-
-DECLARE @SAIDA VARCHAR(MAX)
-exec sp_dividirGrupos 'Santos Futebol Clube', @SAIDA
-PRINT @SAIDA
-
-DECLARE @CONTADOR INT,
-		@CLUBEID INT,
-		@CABECADECHAVE INT,
-		@SAOPAULO INT,
-		@SANTOS INT,
-		@PALMEIRAS INT,
-		@CURINTIA INT
-
-SET @SAOPAULO = (SELECT idTime FROM times WHERE nomeTime = 'São Paulo Futebol Clube')
-SET @SANTOS = (SELECT idTime FROM times WHERE nomeTime = 'Santos Futebol Clube')
-SET @PALMEIRAS = (SELECT idTime FROM times WHERE nomeTime = 'Sociedade Esporte Palmeiras')
-SET @CURINTIA = (SELECT idTime FROM times WHERE nomeTime = 'Sport Club Corinthians Paulista')
-
-SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
-								(grupo = 'A' AND idTime = @CURINTIA) OR
-								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'A' AND idTime = @SAOPAULO)
-
-DROP PROCEDURE sp_dividirGrupos
 
 CREATE PROCEDURE sp_dividirGrupos(@CLUBE VARCHAR(MAX), @out VARCHAR(MAX) OUTPUT)
 AS
@@ -122,16 +96,18 @@ AS
 	BEGIN
 		IF (@CLUBE = 'São Paulo Futebol Clube')
 		BEGIN
-			IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
-															(grupo = 'A' AND idTime = @CURINTIA) OR
-															(grupo = 'A' AND idTime = @PALMEIRAS) OR 
-															(grupo = 'A' AND idTime = @SAOPAULO))
+			IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+														(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+			BEGIN
+				SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																		(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+			END
+			ELSE
 			BEGIN
 				SET @CABECADECHAVE = 0
 			END
-
 			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-			IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
+			IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 			BEGIN
 				BEGIN TRY
 					INSERT INTO grupos VALUES ('A', @SAOPAULO)
@@ -143,15 +119,18 @@ AS
 			END
 			ELSE
 			BEGIN
-				IF NOT EXISTS(SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR
-																(grupo = 'B' AND idTime = @CURINTIA) OR
-																(grupo = 'B' AND idTime = @PALMEIRAS) OR 
-																(grupo = 'B' AND idTime = @SAOPAULO))
+				IF EXISTS(SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+															(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+				BEGIN
+					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																			(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+				END
+				ELSE
 				BEGIN
 					SET @CABECADECHAVE = 0
 				END
 				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-				IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
+				IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 				BEGIN
 					BEGIN TRY
 						INSERT INTO grupos VALUES ('B', @SAOPAULO)
@@ -163,15 +142,18 @@ AS
 				END
 				ELSE
 				BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
-								(grupo = 'C' AND idTime = @CURINTIA) OR
-								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'C' AND idTime = @SAOPAULO))
-				BEGIN
-					SET @CABECADECHAVE = 0
-				END
+					IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																				(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+					END
+					ELSE
+					BEGIN
+						SET @CABECADECHAVE = 0
+					END
 					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-					IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
+					IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 					BEGIN
 						BEGIN TRY 
 							INSERT INTO grupos VALUES ('C', @SAOPAULO)
@@ -183,15 +165,18 @@ AS
 					END
 					ELSE
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
-								(grupo = 'D' AND idTime = @CURINTIA) OR
-								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'D' AND idTime = @SAOPAULO))
+						IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																	(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
 						BEGIN
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																					(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+						END
+						ELSE
+						BEGIN 
 							SET @CABECADECHAVE = 0
 						END
 						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-						IF (@SAOPAULO != @CABECADECHAVE AND @CONTADOR < 5)
+						IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 						BEGIN
 							BEGIN TRY
 								INSERT INTO grupos VALUES ('D', @SAOPAULO)
@@ -209,10 +194,13 @@ AS
 		BEGIN
 			IF (@CLUBE = 'Sociedade Esporte Palmeiras')
 			BEGIN
-				IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
-								(grupo = 'A' AND idTime = @CURINTIA) OR
-								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'A' AND idTime = @SAOPAULO))
+				IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+															(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+				BEGIN
+					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																			(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+				END
+				ELSE
 				BEGIN
 					SET @CABECADECHAVE = 0
 				END
@@ -229,10 +217,13 @@ AS
 				END
 				ELSE
 				BEGIN
-					IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR 
-								(grupo = 'B' AND idTime = @CURINTIA) OR
-								(grupo = 'B' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'B' AND idTime = @SAOPAULO))
+					IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																				(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+					END
+					ELSE
 					BEGIN
 						SET @CABECADECHAVE = 0
 					END
@@ -249,10 +240,13 @@ AS
 					END
 					ELSE
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
-								(grupo = 'C' AND idTime = @CURINTIA) OR
-								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'C' AND idTime = @SAOPAULO))
+						IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																	(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+						BEGIN
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																					(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+						END
+						ELSE
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
@@ -269,10 +263,13 @@ AS
 						END
 						ELSE
 						BEGIN
-							IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
-								(grupo = 'D' AND idTime = @CURINTIA) OR
-								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'D' AND idTime = @SAOPAULO))
+							IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																		(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+							BEGIN
+								SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																						(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+							END
+							ELSE
 							BEGIN
 								SET @CABECADECHAVE = 0
 							END
@@ -295,10 +292,13 @@ AS
 			BEGIN
 				IF (@CLUBE = 'Sport Club Corinthians Paulista')
 				BEGIN
-					IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
-								(grupo = 'A' AND idTime = @CURINTIA) OR
-								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'A' AND idTime = @SAOPAULO))
+					IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																				(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+					END
+					ELSE
 					BEGIN
 						SET @CABECADECHAVE = 0
 					END
@@ -315,10 +315,13 @@ AS
 					END
 					ELSE
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR 
-								(grupo = 'B' AND idTime = @CURINTIA) OR
-								(grupo = 'B' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'B' AND idTime = @SAOPAULO))
+						IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																	(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+						BEGIN
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																					(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+						END
+						ELSE
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
@@ -335,10 +338,13 @@ AS
 						END
 						ELSE
 						BEGIN
-							IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
-								(grupo = 'C' AND idTime = @CURINTIA) OR
-								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'C' AND idTime = @SAOPAULO))
+							IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																		(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+							BEGIN
+								SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																						(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+							END
+							ELSE
 							BEGIN
 								SET @CABECADECHAVE = 0
 							END
@@ -355,10 +361,13 @@ AS
 							END
 							ELSE
 							BEGIN
-								IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
-								(grupo = 'D' AND idTime = @CURINTIA) OR
-								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'D' AND idTime = @SAOPAULO))
+								IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																			(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+								BEGIN
+									SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																							(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+								END
+								ELSE
 								BEGIN
 									SET @CABECADECHAVE = 0
 								END
@@ -381,15 +390,18 @@ AS
 				BEGIN
 					IF (@CLUBE = 'Santos Futebol Clube')
 					BEGIN
-						IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR 
-								(grupo = 'A' AND idTime = @CURINTIA) OR
-								(grupo = 'A' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'A' AND idTime = @SAOPAULO))
+						IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																	(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+						BEGIN
+							SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																					(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+						END
+						ELSE
 						BEGIN
 							SET @CABECADECHAVE = 0
 						END
 						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-						IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+						IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 						BEGIN
 							BEGIN TRY
 								INSERT INTO grupos VALUES ('A', @SANTOS)
@@ -401,15 +413,18 @@ AS
 						END
 						ELSE
 						BEGIN
-							IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR 
-								(grupo = 'B' AND idTime = @CURINTIA) OR
-								(grupo = 'B' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'B' AND idTime = @SAOPAULO))
+							IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																		(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+							BEGIN
+								SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																						(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+							END
+							ELSE
 							BEGIN
 								SET @CABECADECHAVE = 0
 							END
 							SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-							IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+							IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 							BEGIN
 								BEGIN TRY
 									INSERT INTO grupos VALUES ('B', @SANTOS)
@@ -421,15 +436,18 @@ AS
 							END
 							ELSE
 							BEGIN
-								IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR 
-								(grupo = 'C' AND idTime = @CURINTIA) OR
-								(grupo = 'C' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'C' AND idTime = @SAOPAULO))
+								IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																			(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+								BEGIN
+									SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																							(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+								END
+								ELSE
 								BEGIN
 									SET @CABECADECHAVE = 0
 								END
 								SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-								IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+								IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 								BEGIN
 									BEGIN TRY
 										INSERT INTO grupos VALUES ('C', @SANTOS)
@@ -441,15 +459,18 @@ AS
 								END
 								ELSE
 								BEGIN
-									IF NOT EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR 
-								(grupo = 'D' AND idTime = @CURINTIA) OR
-								(grupo = 'D' AND idTime = @PALMEIRAS) OR 
-								(grupo = 'D' AND idTime = @SAOPAULO))
+									IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																				(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+									BEGIN
+										SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																								(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+									END
+									ELSE
 									BEGIN
 										SET @CABECADECHAVE = 0
 									END
 									SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-									IF (@SANTOS != @CABECADECHAVE AND @CONTADOR < 5)
+									IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 									BEGIN
 										BEGIN TRY
 											INSERT INTO grupos VALUES ('D', @SANTOS)
