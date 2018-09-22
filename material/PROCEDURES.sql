@@ -65,61 +65,52 @@ select * from grupos
 INSERT INTO grupos VALUES ('A', 'Sport Club Corinthians Paulista')
 
 DECLARE @SAIDA VARCHAR(MAX)
-exec sp_dividirGrupos 'Ituano Futebol Clube', @SAIDA
+exec sp_dividirGrupos 'São Paulo Futebol Clube', @SAIDA
 PRINT @SAIDA
 
 DECLARE @SAIDA VARCHAR(MAX)
 exec sp_dividirGrupos 'Ituano Futebol Clube', @SAIDA
 PRINT @SAIDA
 
-CREATE PROCEDURE sp_dividirGrupos(@CLUBE VARCHAR(MAX), @OUT VARCHAR(MAX)
+DROP TABLE grupos
+
+
+CREATE PROCEDURE sp_dividirGrupos(@CLUBE VARCHAR(MAX), @OUT VARCHAR(MAX) OUTPUT)
 AS
+	DECLARE @contador INT,
+			@clubeid INT,
+			@saopaulo INT,
+			@santos INT,
+			@palmeiras INT,
+			@curintia INT
 
-	DECLARE @CONTADOR INT,
-			@CLUBEID INT,
-			@SAOPAULO INT,
-			@SANTOS INT,
-			@PALMEIRAS INT,
-			@CURINTIA INT
+	SET @saopaulo = (SELECT idTime FROM times WHERE nomeTime = 'São Paulo Futebol Clube')
+	SET @santos = (SELECT idTime FROM times WHERE nomeTime = 'Santos Futebol Clube')
+	SET @palmeiras = (SELECT idTime FROM times WHERE nomeTime = 'Sociedade Esporte Palmeiras')
+	SET @curintia = (SELECT idTime FROM times WHERE nomeTime = 'Sport Club Corinthians Paulista')
 
-	SET @SAOPAULO = (SELECT idTime FROM times WHERE nomeTime = 'São Paulo Futebol Clube')
-	SET @SANTOS = (SELECT idTime FROM times WHERE nomeTime = 'Santos Futebol Clube')
-	SET @PALMEIRAS = (SELECT idTime FROM times WHERE nomeTime = 'Sociedade Esporte Palmeiras')
-	SET @CURINTIA = (SELECT idTime FROM times WHERE nomeTime = 'Sport Club Corinthians Paulista')
+	SET @contador = (SELECT COUNT(idTime) FROM grupos)
 
-	BEGIN TRY
-		INSERT INTO grupos VALUES
-		('A', @SAOPAULO),
-		('B', @SANTOS),
-		('C', @PALMEIRAS),
-		('D', @CURINTIA)
-	END TRY
-	BEGIN CATCH
-		RAISERROR('CABECAS DE CHAVES JÁ INSERIDOS', 16, 1)
-	END CATCH
-
-	SET @CLUBEID = (SELECT idTime FROM times WHERE nomeTime = @CLUBE)
-
-	SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-
-	IF (@CONTADOR < 5)
+	IF (@contador < 20)
 	BEGIN
 		BEGIN TRY
-			INSERT INTO grupos VALUES ('A', @CLUBEID)
-			SET @out = 'Time ' + @CLUBE + ' inserido.'
+			INSERT INTO grupos VALUES
+			('A', @saopaulo),
+			('B', @santos),
+			('C', @palmeiras),
+			('D', @curintia)
 		END TRY
 		BEGIN CATCH
-			RAISERROR('ERRO: TIME JÁ INSERIDO', 16, 1)
-		END CATCH
-	END
-	ELSE
-	BEGIN
-		SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-		IF (@CONTADOR < 5)
+	
+		SET @clubeid = (SELECT idTime FROM times WHERE nomeTime = @CLUBE)
+
+		SET @contador = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
+
+		IF (@contador < 5 AND @clubeid != @saopaulo)
 		BEGIN
 			BEGIN TRY
-				INSERT INTO grupos VALUES ('B', @CLUBEID)
-				SET @out = 'Time ' + @CLUBE + ' inserido.'
+				INSERT INTO grupos VALUES ('A', @clubeid)
+				SET @OUT = 'Time ' + @CLUBE + ' inserido.'
 			END TRY
 			BEGIN CATCH
 				RAISERROR('ERRO: TIME JÁ INSERIDO', 16, 1)
@@ -127,12 +118,12 @@ AS
 		END
 		ELSE
 		BEGIN
-			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-			IF (@CONTADOR < 5)
+			SET @contador = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
+			IF (@contador < 5 AND @clubeid != @santos)
 			BEGIN
 				BEGIN TRY
-					INSERT INTO grupos VALUES ('C', @CLUBEID)
-					SET @out = 'Time ' + @CLUBE + ' inserido.'
+					INSERT INTO grupos VALUES ('B', @clubeid)
+					SET @OUT = 'Time ' + @CLUBE + ' inserido.'
 				END TRY
 				BEGIN CATCH
 					RAISERROR('ERRO: TIME JÁ INSERIDO', 16, 1)
@@ -140,12 +131,12 @@ AS
 			END
 			ELSE
 			BEGIN
-				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-				IF (@CONTADOR < 5)
+				SET @contador = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
+				IF (@contador < 5 AND @clubeid != @palmeiras)
 				BEGIN
 					BEGIN TRY
-						INSERT INTO grupos VALUES ('A', @CLUBEID)
-						SET @out = 'Time ' + @CLUBE + ' inserido.'
+						INSERT INTO grupos VALUES ('C', @clubeid)
+						SET @OUT = 'Time ' + @CLUBE + ' inserido.'
 					END TRY
 					BEGIN CATCH
 						RAISERROR('ERRO: TIME JÁ INSERIDO', 16, 1)
@@ -153,8 +144,19 @@ AS
 				END
 				ELSE
 				BEGIN
-					RAISERROR ('GRUPOS CHEIOS', 16, 1)
+					SET @contador = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
+					IF (@contador < 5 AND @clubeid != @curintia)
+					BEGIN
+						BEGIN TRY
+							INSERT INTO grupos VALUES ('D', @clubeid)
+							SET @OUT = 'Time ' + @CLUBE + ' inserido.'
+						END TRY
+						BEGIN CATCH
+							RAISERROR('ERRO: TIME JÁ INSERIDO', 16, 1)
+						END CATCH
+					END
 				END
 			END
 		END
+	END CATCH
 	END
