@@ -33,6 +33,8 @@ INSERT INTO times VALUES
 
 SELECT COUNT (idTime) FROM times AS QTD WHERE idTime <= 5 
 
+DROP TABLE grupos
+GO
 CREATE TABLE grupos (
 	grupo CHAR(1) NOT NULL,
 	idTime INT PRIMARY KEY,
@@ -62,7 +64,7 @@ g.idTime = t.idTime
 
 SELECT * FROM v_grupos
 
-DROP TABLE grupos
+
 
 DECLARE @SAIDA VARCHAR(MAX)
 exec sp_dividirGrupos 'Ituano Futebol Clube', @SAIDA
@@ -71,6 +73,16 @@ PRINT @SAIDA
 DECLARE @SAIDA VARCHAR(MAX)
 exec sp_dividirGrupos 'São Paulo Futebol Clube', @SAIDA
 PRINT @SAIDA
+
+DECLARE @SAIDA VARCHAR(MAX)
+EXEC sp_dividirGrupos 'Associação Ferroviária de Esportes', @SAIDA
+PRINT @SAIDA
+
+DECLARE @SAIDA VARCHAR(MAX)
+EXEC sp_dividirGrupos 'Sport Club Corinthians Paulista', @SAIDA
+PRINT @SAIDA
+
+drop procedure sp_dividirGrupos
 
 CREATE PROCEDURE sp_dividirGrupos(@CLUBE VARCHAR(MAX), @out VARCHAR(MAX) OUTPUT)
 AS
@@ -111,7 +123,6 @@ AS
 			BEGIN
 				BEGIN TRY
 					INSERT INTO grupos VALUES ('A', @SAOPAULO)
-					SET @out = 'Time ' + @CLUBE + ' inserido.'
 				END TRY
 				BEGIN CATCH
 					RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -134,7 +145,6 @@ AS
 				BEGIN
 					BEGIN TRY
 						INSERT INTO grupos VALUES ('B', @SAOPAULO)
-						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END TRY
 					BEGIN CATCH
 						RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -157,7 +167,6 @@ AS
 					BEGIN
 						BEGIN TRY 
 							INSERT INTO grupos VALUES ('C', @SAOPAULO)
-							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END TRY
 						BEGIN CATCH
 							RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -180,7 +189,6 @@ AS
 						BEGIN
 							BEGIN TRY
 								INSERT INTO grupos VALUES ('D', @SAOPAULO)
-								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END TRY
 							BEGIN CATCH
 								RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -205,11 +213,10 @@ AS
 					SET @CABECADECHAVE = 0
 				END
 				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-				IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+				IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 				BEGIN
 					BEGIN TRY
 						INSERT INTO grupos VALUES ('A', @PALMEIRAS)
-						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END TRY
 					BEGIN CATCH
 						RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -228,11 +235,10 @@ AS
 						SET @CABECADECHAVE = 0
 					END
 					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-					IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+					IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 					BEGIN
 						BEGIN TRY
 							INSERT INTO grupos VALUES ('B', @PALMEIRAS)
-							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END TRY
 						BEGIN CATCH
 							RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -251,11 +257,10 @@ AS
 							SET @CABECADECHAVE = 0
 						END
 						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-						IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+						IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 						BEGIN
 							BEGIN TRY
 								INSERT INTO grupos VALUES ('C', @PALMEIRAS)
-								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END TRY
 							BEGIN CATCH
 								RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -274,11 +279,10 @@ AS
 								SET @CABECADECHAVE = 0
 							END
 							SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-							IF (@PALMEIRAS != @CABECADECHAVE AND @CONTADOR < 5)
+							IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 							BEGIN
 								BEGIN TRY
 									INSERT INTO grupos VALUES ('D', @PALMEIRAS)
-									SET @out = 'Time ' + @CLUBE + ' inserido.'
 								END TRY
 								BEGIN CATCH
 									RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -303,11 +307,10 @@ AS
 						SET @CABECADECHAVE = 0
 					END
 					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-					IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
+					IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 					BEGIN
 						BEGIN TRY
 							INSERT INTO grupos VALUES ('A', @CURINTIA)
-							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END TRY
 						BEGIN CATCH
 							RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -326,11 +329,10 @@ AS
 							SET @CABECADECHAVE = 0
 						END
 						SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-						IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
+						IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 						BEGIN
 							BEGIN TRY
 								INSERT INTO grupos VALUES ('B', @CURINTIA)
-								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END TRY
 							BEGIN CATCH
 								RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -349,11 +351,10 @@ AS
 								SET @CABECADECHAVE = 0
 							END
 							SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-							IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
+							IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 							BEGIN
 								BEGIN TRY
 									INSERT INTO grupos VALUES ('C', @CURINTIA)
-									SET @out = 'Time ' + @CLUBE + ' inserido.'
 								END TRY
 								BEGIN CATCH
 									RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -372,11 +373,10 @@ AS
 									SET @CABECADECHAVE = 0
 								END
 								SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-								IF (@CURINTIA != @CABECADECHAVE AND @CONTADOR < 5)
+								IF (@CABECADECHAVE = 0 AND @CONTADOR < 5)
 								BEGIN
 									BEGIN TRY
 										INSERT INTO grupos VALUES ('D', @CURINTIA)
-										SET @out = 'Time ' + @CLUBE + ' inserido.'
 									END TRY
 									BEGIN CATCH
 										RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -405,7 +405,6 @@ AS
 						BEGIN
 							BEGIN TRY
 								INSERT INTO grupos VALUES ('A', @SANTOS)
-								SET @out = 'Time ' + @CLUBE + ' inserido.'
 							END TRY
 							BEGIN CATCH
 								RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -428,7 +427,6 @@ AS
 							BEGIN
 								BEGIN TRY
 									INSERT INTO grupos VALUES ('B', @SANTOS)
-									SET @out = 'Time ' + @CLUBE + ' inserido.'
 								END TRY
 								BEGIN CATCH
 									RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -451,7 +449,6 @@ AS
 								BEGIN
 									BEGIN TRY
 										INSERT INTO grupos VALUES ('C', @SANTOS)
-										SET @out = 'Time ' + @CLUBE + ' inserido.'
 									END TRY
 									BEGIN CATCH
 										RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -474,7 +471,6 @@ AS
 									BEGIN
 										BEGIN TRY
 											INSERT INTO grupos VALUES ('D', @SANTOS)
-											SET @out = 'Time ' + @CLUBE + ' inserido.'
 										END TRY
 										BEGIN CATCH
 											RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -490,12 +486,21 @@ AS
 	END
 	ELSE
 	BEGIN
+		IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+													(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+		BEGIN
+			SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'A' AND idTime = @SANTOS) OR (grupo = 'A' AND idTime = @CURINTIA) OR
+																	(grupo = 'A' AND idTime = @PALMEIRAS) OR (grupo = 'A' AND idTime = @SAOPAULO))
+		END
+		ELSE
+		BEGIN
+			SET @CABECADECHAVE = 0
+		END
 		SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'A')
-		IF (@CONTADOR < 4)
+		IF ((@CABECADECHAVE = 0 AND @CONTADOR < 4) OR (@CABECADECHAVE != 0 AND @CONTADOR < 5))
 		BEGIN
 			BEGIN TRY
 				INSERT INTO grupos VALUES ('A', @CLUBEID)
-				SET @out = 'Time ' + @CLUBE + ' inserido.'
 			END TRY
 			BEGIN CATCH
 				RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -503,12 +508,21 @@ AS
 		END
 		ELSE
 		BEGIN
+			IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+														(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+			BEGIN
+				SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'B' AND idTime = @SANTOS) OR (grupo = 'B' AND idTime = @CURINTIA) OR
+																		(grupo = 'B' AND idTime = @PALMEIRAS) OR (grupo = 'B' AND idTime = @SAOPAULO))
+			END
+			ELSE
+			BEGIN
+				SET @CABECADECHAVE = 0
+			END
 			SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'B')
-			IF (@CONTADOR < 4)
+			IF ((@CABECADECHAVE = 0 AND @CONTADOR < 4) OR (@CABECADECHAVE != 0 AND @CONTADOR < 5))
 			BEGIN
 				BEGIN TRY
 					INSERT INTO grupos VALUES ('B', @CLUBEID)
-					SET @out = 'Time ' + @CLUBE + ' inserido.'
 				END TRY
 				BEGIN CATCH
 					RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -516,12 +530,21 @@ AS
 			END
 			ELSE
 			BEGIN
+				IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+															(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+				BEGIN
+					SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'C' AND idTime = @SANTOS) OR (grupo = 'C' AND idTime = @CURINTIA) OR
+																			(grupo = 'C' AND idTime = @PALMEIRAS) OR (grupo = 'C' AND idTime = @SAOPAULO))
+				END
+				ELSE
+				BEGIN
+					SET @CABECADECHAVE = 0
+				END
 				SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'C')
-				IF (@CONTADOR < 4)
+				IF ((@CABECADECHAVE = 0 AND @CONTADOR < 4) OR (@CABECADECHAVE != 0 AND @CONTADOR < 5))
 				BEGIN
 					BEGIN TRY
 						INSERT INTO grupos VALUES ('C', @CLUBEID)
-						SET @out = 'Time ' + @CLUBE + ' inserido.'
 					END TRY
 					BEGIN CATCH
 						RAISERROR('TIME JA INSERIDO', 16, 1)
@@ -529,12 +552,21 @@ AS
 				END
 				ELSE
 				BEGIN
+					IF EXISTS (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+					BEGIN
+						SET @CABECADECHAVE = (SELECT idTime FROM grupos WHERE (grupo = 'D' AND idTime = @SANTOS) OR (grupo = 'D' AND idTime = @CURINTIA) OR
+																				(grupo = 'D' AND idTime = @PALMEIRAS) OR (grupo = 'D' AND idTime = @SAOPAULO))
+					END
+					ELSE
+					BEGIN
+						SET @CABECADECHAVE = 0
+					END
 					SET @CONTADOR = (SELECT COUNT(idTime) FROM grupos WHERE grupo = 'D')
-					IF (@CONTADOR < 4)
+					IF ((@CABECADECHAVE = 0 AND @CONTADOR < 4) OR (@CABECADECHAVE != 0 AND @CONTADOR < 5))
 					BEGIN
 						BEGIN TRY
 							INSERT INTO grupos VALUES ('D', @CLUBEID)
-							SET @out = 'Time ' + @CLUBE + ' inserido.'
 						END TRY
 						BEGIN CATCH
 							RAISERROR('TIME JA INSERIDO', 16, 1)

@@ -70,7 +70,7 @@ public class GrupoDAO {
 
 		HashSet<Grupos> grupos = new HashSet<>();
 
-		String sql = "SELECT * FROM CHAVES";
+		String sql = "SELECT * FROM v_grupos";
 
 		PreparedStatement ps = CON.prepareStatement(sql);
 
