@@ -42,6 +42,7 @@ public class Separador {
 		String[] colecao = lista.toArray(new String[lista.size()]);
 		
 		
+		
 		lista1.addAll(Arrays.asList(Arrays.copyOfRange(colecao, 0, 5)));
 		lista2.addAll(Arrays.asList(Arrays.copyOfRange(colecao, 5, 10)));
 		

@@ -9,8 +9,8 @@ public class RodadasDAO {
 	
 	public void gerarRodadas() throws SQLException {
 		CON = DBUtil.getInstance().getConnection();
-		
-		String sql = "{CALL sp_gerarRodadas(?)}";
+				
+		String sql = "{CALL sp_gerarRodadas(?, ?, ?)}";
 		
 		CallableStatement cs = CON.prepareCall(sql);
 	}

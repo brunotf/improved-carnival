@@ -10,8 +10,30 @@ SELECT CONVERT(CHAR, DATEADD(DAY, 7, GETDATE()), 103)
  --ARREDONDA NUMERO ALEATORIO PARA BAIXO ATE 12 
  SELECT ROUND(RAND() * 12, 0, 1);
 
-CREATE PROCEDURE sp_gerarRodadas(@OUT VARCHAR(MAX) OUTPUT)
+ SELECT * FROM v_grupos ORDER BY grupo
+
+CREATE PROCEDURE sp_gerarRodadas(@CLUBE VARCHAR(100), @OUT VARCHAR(MAX) OUTPUT)
 AS
+	DECLARE @dataInicio DATETIME
+
+	SET @dataInicio = '30/01/2019'
+
+	PRINT @dataInicio
+
+	SELECT DATENAME(W, '30/01/2019')
+
+	SELECT DATENAME(W, DATEADD(DAY, 4, '30/01/2019'))
+
+	DECLARE @grupoCasa CHAR(1),
+			@grupoAdv CHAR(1),
+			@adversario INT,
+			@CLUBE VARCHAR(100)
+
+	SET @CLUBE = 'Esporte Clube Água Santa'
+	SET @grupoCasa = (SELECT grupo FROM v_grupos WHERE nomeTime = @CLUBE)
+	PRINT @grupoCasa
+
+	
 
 
 

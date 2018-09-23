@@ -27,12 +27,6 @@ CREATE TABLE jogos (
 	dataJogo DATETIME PRIMARY KEY
 )
 
-CREATE TABLE rodada (
-	dataRodada DATETIME,
-	idRodada INT NOT NULL,
-	FOREIGN KEY (dataRodada) REFERENCES jogos(dataJogo)
-)
-
 INSERT INTO times VALUES 
 (1, 'Esporte Clube Água Santa', 'Diadema', 'Distrital do Inamar'),
 (2, 'Grêmio Osasco Audax', 'Osasco', 'José Liberatti'),

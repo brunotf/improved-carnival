@@ -54,7 +54,6 @@
 		session.setAttribute("TABELA_GRUPOS", null);
 		if (tabelaGrupos != null && tabelaGrupos.size() > 0) {
 	%>
-	<h2>Grupos</h2>
 	<table class="table table-striped table-dark" id="tabela">
 		<tr>
 			<th scope="col">Grupo</th>

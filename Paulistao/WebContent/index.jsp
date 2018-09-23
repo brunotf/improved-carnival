@@ -31,7 +31,7 @@
 		</div>
 	</nav>
 
-	<h2 align="center">PAULISTÃO 2019</h2>
+	<h2 align="center" class="title">PAULISTÃO 2019</h2>
 	<hr>
 
 </body>

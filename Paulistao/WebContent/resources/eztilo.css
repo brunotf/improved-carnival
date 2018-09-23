@@ -6,3 +6,10 @@ body {
 h2 {
 	color: #FFFFFF;
 }
+.title {
+	color: #fff;
+}
+#tabela {
+	width: 34%;
+	margin: 2% 0% 0% 23%;
+}

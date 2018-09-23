@@ -72,10 +72,6 @@ public class GrupoDAO {
 		rs.close();
 		ps.close();
 
-		for (Grupos gr : grupos) {
-			System.out.println(gr.getNomeTime());
-		}
-
 		return grupos;
 	}
 
