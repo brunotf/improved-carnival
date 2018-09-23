@@ -17,7 +17,7 @@ public class DBUtil {
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
 			con = DriverManager.getConnection(URLDB, USERNAME, PASSWORD);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace(System.err);
+			e.printStackTrace(System.out);
 		}
 	}
 

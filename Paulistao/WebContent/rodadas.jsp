@@ -20,8 +20,9 @@
 
 	<div class="container">
 		<form action="./RodadasController" method="post">
-			<div class="btn btn-success btn-lg" type="submit" name="cmd"
-				value="gerarRodadas">Gerar Rodadas
+			<div>
+				<button class="btn btn-success btn-lg" type="submit" name="cmd"
+				value="gerarRodadas">Gerar Rodadas</button>
 			</div>
 		</form>
 	</div>

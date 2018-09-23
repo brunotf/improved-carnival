@@ -19,12 +19,14 @@ CREATE TABLE grupos (
 	FOREIGN KEY (idTime) REFERENCES times(idTime)
 )
 
+DROP TABLE jogos
+GO
 CREATE TABLE jogos (
-	idTimeA INT NULL UNIQUE,
-	idTimeB INT NULL UNIQUE,
+	idTimeA INT NULL,
+	idTimeB INT NULL,
 	golsTimeA INT NULL,
 	golsTimeB INT NULL,
-	dataJogo DATETIME NULL UNIQUE
+	dataJogo DATETIME NULL
 )
 
 SELECT * FROM rodada ORDER BY numeroRodada

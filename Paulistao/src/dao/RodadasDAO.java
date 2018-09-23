@@ -27,53 +27,152 @@ public class RodadasDAO {
 
 		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<Jogo>();
 
-		for (int i = 1; i <= 10; i++) {
-			for (int j = 1; j <= 15; j++) {
-				Jogo jogo = new Jogo();
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 5; j++) {
 
-				if (i <= 1 && i <= 2) {
-					jogo.setTimeA(grupoA.get(i).getIdTime());
+				if (j == 1) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
 					jogo.setTimeB(grupoB.get(j).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(j).getDataRodada());
+					jogo.setData(datas.get(i).getDataRodada());
+
 					rodadas.add(jogo);
-				} else if (i <= 3 && i <= 4) {
-					jogo.setTimeA(grupoA.get(i).getIdTime());
-					jogo.setTimeB(grupoC.get(j).getIdTime());
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoC.get(i % 5).getIdTime());
+					jogo2.setTimeB(grupoD.get(j).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
+
+				} else if (j == 2) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
+					jogo.setTimeB(grupoC.get(i % 5).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(j).getDataRodada());
+					jogo.setData(datas.get(i).getDataRodada());
+
 					rodadas.add(jogo);
-				} else if (i <= 5 && i <= 6) {
-					jogo.setTimeA(grupoA.get(i).getIdTime());
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoB.get(j).getIdTime());
+					jogo2.setTimeB(grupoD.get(j).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
+
+				} else if (j == 3) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
 					jogo.setTimeB(grupoD.get(j).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(j).getDataRodada());
+					jogo.setData(datas.get(i).getDataRodada());
+
 					rodadas.add(jogo);
-				} else if (i <= 7 && i <= 8) {
-					jogo.setTimeA(grupoB.get(i).getIdTime());
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoB.get(j).getIdTime());
+					jogo2.setTimeB(grupoC.get(i % 5).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
+
+				} else if (j == 4) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(j).getIdTime());
 					jogo.setTimeB(grupoC.get(j).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(j).getDataRodada());
+					jogo.setData(datas.get(i).getDataRodada());
+
 					rodadas.add(jogo);
-				} else if (i <= 9 && i <= 10) {
-					jogo.setTimeA(grupoC.get(i).getIdTime());
-					jogo.setTimeB(grupoD.get(j).getIdTime());
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoB.get(i % 5).getIdTime());
+					jogo2.setTimeB(grupoD.get(i % 5).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
+
+				} else if (j == 0) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
+					jogo.setTimeB(grupoC.get(i % 5).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(j).getDataRodada());
+					jogo.setData(datas.get(i).getDataRodada());
+
 					rodadas.add(jogo);
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoB.get(i % 5).getIdTime());
+					jogo2.setTimeB(grupoD.get(i % 5).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
 				}
 
 			}
-
 		}
 
 		inserirRodadas(rodadas);
 
+	}
+
+	private void inserirRodadas(LinkedHashSet<Jogo> rodada) throws SQLException {
+		CON = DBUtil.getInstance().getConnection();
+
+		String sql = "{CALL sp_inserirRodadas(?, ?, ?, ?, ?, ?)}";
+
+		String saida = "";
+
+		CallableStatement cs = CON.prepareCall(sql);
+
+		for (Jogo j : rodada) {
+			cs.setInt(1, j.getTimeA());
+			cs.setInt(2, j.getTimeB());
+			cs.setInt(3, j.getGolsA());
+			cs.setInt(4, j.getGolsB());
+			cs.setDate(5, j.getData());
+			cs.registerOutParameter(6, Types.VARCHAR);
+
+			cs.execute();
+
+			saida = cs.getString(6);
+
+			System.out.println(saida);
+		}
+
+		cs.close();
 	}
 
 	private LinkedList<Grupos> obterGrupoA() throws SQLException {
@@ -205,33 +304,6 @@ public class RodadasDAO {
 		ps.close();
 
 		return rodadas;
-	}
-
-	private void inserirRodadas(LinkedHashSet<Jogo> rodada) throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
-
-		String sql = "{CALL sp_inserirRodadas(?, ?, ?, ?, ?, ?)}";
-
-		String saida = "";
-
-		CallableStatement cs = CON.prepareCall(sql);
-
-		for (Jogo j : rodada) {
-			cs.setInt(1, j.getTimeA());
-			cs.setInt(2, j.getTimeB());
-			cs.setInt(3, j.getGolsA());
-			cs.setInt(4, j.getGolsB());
-			cs.setDate(5, j.getData());
-			cs.registerOutParameter(6, Types.VARCHAR);
-
-			cs.execute();
-
-			saida = cs.getNString(6);
-
-			System.out.println(saida);
-		}
-
-		cs.close();
 	}
 
 }

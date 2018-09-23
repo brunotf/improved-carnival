@@ -10,25 +10,22 @@ SELECT CONVERT(CHAR, DATEADD(DAY, 4, GETDATE()), 103)
  --ARREDONDA NUMERO ALEATORIO PARA BAIXO ATE 12 
  SELECT ROUND(RAND() * 12, 0, 1);
 
-SELECT * FROM grupos WHERE grupo = 'A'
-
-select * from v_grupos v
-INNER JOIN grupos g
-ON
-v.grupo = g.grupo
-WHERE g.grupo = 'A'
-
 CREATE PROCEDURE sp_inserirRodadas(@CLUBEA INT, @CLUBEB INT, @GOLSA INT, @GOLSB INT,
 								     @DATAJOGO DATETIME, @OUT VARCHAR(MAX) OUTPUT)
 AS
-	IF EXISTS (SELECT * FROM jogos)
+	DECLARE @contador INT
+
+	SET @contador = (SELECT COUNT(dataJogo) FROM jogos)
+	
+	IF (@contador <= 150)
 	BEGIN
 		INSERT INTO jogos VALUES (@CLUBEA, @CLUBEB, @GOLSA, @GOLSB, @DATAJOGO)
 	END
 	ELSE
 	BEGIN
 		RAISERROR('RODADAS JA DEFINIDAS', 16, 1)
-	END		
+	END
+	
 
 
 
