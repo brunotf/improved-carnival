@@ -2,7 +2,7 @@ package services;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import dao.GrupoDAO;
 import modelo.Grupos;
 
-@WebServlet("/MostrarGrupos")
-public class MostrarGrupos extends HttpServlet {
+@WebServlet("/GruposController")
+public class GruposController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	@SuppressWarnings("unchecked")
@@ -24,24 +24,25 @@ public class MostrarGrupos extends HttpServlet {
 		
 		GrupoDAO gDao = new GrupoDAO();
 		
-		HashSet<Grupos> grupos;
+		LinkedList<Grupos> grupos;
 		
-		grupos = (HashSet<Grupos>) getServletContext().getAttribute("TABELA_GRUPOS");
+		grupos = (LinkedList<Grupos>) getServletContext().getAttribute("TABELA_GRUPOS");
 		
 		if (grupos == null) {
-			grupos = new HashSet<>();
+			grupos = new LinkedList<>();
 		}
 		
 		String msg = "";
 		
 		if ("dividir".contains(cmd)) {
 			try {
-				gDao.dividirGrupos();
+			msg = gDao.dividirGrupos();
 			} catch (SQLException e) {
 				e.printStackTrace(System.err);
 			}
-			
-		} else if ("mostrar".contains(cmd)) {
+		} 
+		
+		if ("mostrar".contains(cmd)) {
 			try {
 				grupos = gDao.mostrarGrupos();
 			} catch (SQLException e) {
@@ -50,10 +51,10 @@ public class MostrarGrupos extends HttpServlet {
 			
 		}
 		
-		request.setAttribute("MESSAGE", msg);
-		request.setAttribute("TABELA_GRUPOS", grupos);
+		request.getSession().setAttribute("MESSAGE", msg);
+		request.getSession().setAttribute("TABELA_GRUPOS", grupos);
 		
-		response.sendRedirect("./mostrargrupos.jsp");
+		response.sendRedirect("./grupos.jsp");
 		
 	}
 

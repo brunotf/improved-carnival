@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="modelo.Grupos, java.util.HashSet"%>
+<%@ page import="modelo.Grupos, java.util.LinkedList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +20,22 @@
 
 	<jsp:include page="index.jsp"></jsp:include>
 
+	<%
+		String msg = (String) session.getAttribute("MESSAGE");
+		
+		if (msg != null && msg != "null") {
+			
+	%>
+	<div class=alert alert-sucess" role="alert">
+		<%=msg%>
+	</div>
+	<%
+		session.setAttribute("MESSAGE", null);
+		}
+	%>
+	
 	<div class="container">
-		<form action="./MostrarGrupos" method="post">
+		<form action="./GruposController" method="post">
 			<div class="btn-group btn-group-justified">
 				<div class="btn-group">
 					<button class="btn btn-sucess btn-lg" type="submit" name="cmd"
@@ -36,22 +50,22 @@
 	</div>
 
 	<%
-		HashSet<Grupos> tabelaGrupos = (HashSet<Grupos>) session.getAttribute("TABELA_GRUPOS");
+		LinkedList<Grupos> tabelaGrupos = (LinkedList<Grupos>) session.getAttribute("TABELA_GRUPOS");
 		session.setAttribute("TABELA_GRUPOS", null);
 		if (tabelaGrupos != null && tabelaGrupos.size() > 0) {
 	%>
 	<h2>Grupos</h2>
-	<table class="table table-striped" id="tabela">
+	<table class="table table-striped table-dark" id="tabela">
 		<tr>
-			<th scope="col">Nome do Time</th>
 			<th scope="col">Grupo</th>
+			<th scope="col">Time</th>
 		</tr>
 		<%
 			for (Grupos g : tabelaGrupos) {
 		%>
 		<tr>
-			<th scope="row"><%=g.getNomeTime()%></th>
-			<td><%=g.getGrupo()%></td>
+			<td scope="row"><%=g.getGrupo()%></td>
+			<td scope="row"><%=g.getNomeTime()%></td>
 		</tr>
 		<%
 			}
