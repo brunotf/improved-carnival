@@ -1,8 +1,18 @@
 package modelo;
 
 public class Grupos {
+	
+	private int idTime = 0;
 	private String grupo = "";
 	private String nomeTime = "";
+	
+	public int getIdTime() {
+		return idTime;
+	}
+	
+	public void setIdTime(int idTime) {
+		this.idTime = idTime;
+	}
 
 	public String getGrupo() {
 		return grupo;

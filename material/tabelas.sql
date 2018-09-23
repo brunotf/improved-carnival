@@ -20,11 +20,20 @@ CREATE TABLE grupos (
 )
 
 CREATE TABLE jogos (
-	idTimeA INT NOT NULL,
-	idTimeB INT NOT NULL,
+	idTimeA INT NULL UNIQUE,
+	idTimeB INT NULL UNIQUE,
 	golsTimeA INT NULL,
 	golsTimeB INT NULL,
-	dataJogo DATETIME PRIMARY KEY
+	dataJogo DATETIME NULL UNIQUE
+)
+
+SELECT * FROM rodada ORDER BY numeroRodada
+
+SELECT * FROM jogos
+
+CREATE TABLE rodada (
+	numeroRodada INT NOT NULL,
+	dataRodada DATETIME NOT NULL,
 )
 
 INSERT INTO times VALUES 

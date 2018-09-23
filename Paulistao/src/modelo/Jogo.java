@@ -3,42 +3,42 @@ package modelo;
 import java.sql.Date;
 
 public class Jogo {
-	private String nomeTimeA = "";
-	private String golsTimeA = "";
-	private String nomeTimeB = "";
-	private String golsTimeB = "";
+	private int TimeA = 0;
+	private int TimeB = 0;
+	private int golsA = 0;
+	private int golsB = 0;
 	private Date data = null;
 
-	public String getNomeTimeA() {
-		return nomeTimeA;
+	public int getTimeA() {
+		return TimeA;
 	}
 
-	public void setNomeTimeA(String nomeTimeA) {
-		this.nomeTimeA = nomeTimeA;
+	public void setTimeA(int timeA) {
+		TimeA = timeA;
 	}
 
-	public String getGolsTimeA() {
-		return golsTimeA;
+	public int getTimeB() {
+		return TimeB;
 	}
 
-	public void setGolsTimeA(String golsTimeA) {
-		this.golsTimeA = golsTimeA;
+	public void setTimeB(int timeB) {
+		TimeB = timeB;
 	}
 
-	public String getNomeTimeB() {
-		return nomeTimeB;
+	public int getGolsA() {
+		return golsA;
 	}
 
-	public void setNomeTimeB(String nomeTimeB) {
-		this.nomeTimeB = nomeTimeB;
+	public void setGolsA(int golsA) {
+		this.golsA = golsA;
 	}
 
-	public String getGolsTimeB() {
-		return golsTimeB;
+	public int getGolsB() {
+		return golsB;
 	}
 
-	public void setGolsTimeB(String golsTimeB) {
-		this.golsTimeB = golsTimeB;
+	public void setGolsB(int golsB) {
+		this.golsB = golsB;
 	}
 
 	public Date getData() {
@@ -48,4 +48,5 @@ public class Jogo {
 	public void setData(Date data) {
 		this.data = data;
 	}
+
 }

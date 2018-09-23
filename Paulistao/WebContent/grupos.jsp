@@ -26,7 +26,7 @@
 		if (msg != null && msg != "null") {
 			
 	%>
-	<div class=alert alert-sucess" role="alert">
+	<div class="alert alert-sucess" role="alert">
 		<%=msg%>
 	</div>
 	<%
@@ -50,6 +50,7 @@
 	</div>
 
 	<%
+		@SuppressWarnings("unchecked")
 		LinkedList<Grupos> tabelaGrupos = (LinkedList<Grupos>) session.getAttribute("TABELA_GRUPOS");
 		session.setAttribute("TABELA_GRUPOS", null);
 		if (tabelaGrupos != null && tabelaGrupos.size() > 0) {
