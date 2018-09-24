@@ -204,6 +204,8 @@ public class RodadasDAO {
 			saida = cs.getString(6);
 
 		}
+		
+		System.out.println(saida);
 
 		cs.close();
 	}
