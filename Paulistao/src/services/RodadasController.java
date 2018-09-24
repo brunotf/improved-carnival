@@ -20,8 +20,6 @@ public class RodadasController extends HttpServlet {
 
 		RodadasDAO rDao = new RodadasDAO();
 		
-		System.out.println("olár");
-
 		try {
 			rDao.definirRodadas();
 		} catch (SQLException e) {

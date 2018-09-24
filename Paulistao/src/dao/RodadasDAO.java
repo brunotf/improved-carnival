@@ -12,9 +12,43 @@ import java.util.LinkedList;
 import modelo.Grupos;
 import modelo.Jogo;
 import modelo.Rodada;
+import modelo.DataRodada;
 
 public class RodadasDAO {
 	private Connection CON;
+
+	public LinkedList<Rodada> buscarRodada(String data) throws SQLException {
+
+		CON = DBUtil.getInstance().getConnection();
+
+		LinkedList<Rodada> rodada = new LinkedList<>();
+
+		String sql = "SELECT * FROM v_jogos WHERE DATA_JOGO = ?";
+
+		PreparedStatement ps = CON.prepareStatement(sql);
+		
+		ps.setString(1, data);
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			Rodada r = new Rodada();
+
+			r.setTimeA(rs.getString("TIME A"));
+			r.setTimeB(rs.getString("TIME B"));
+			r.setGolsA(rs.getInt("GOLS_A"));
+			r.setGolsB(rs.getInt("GOLS_B"));
+			r.setDataJogo(rs.getDate("DATA_JOGO"));
+
+			rodada.add(r);
+		}
+
+		rs.close();
+		ps.close();
+
+		return rodada;
+
+	}
 
 	public void definirRodadas() throws SQLException {
 
@@ -23,7 +57,7 @@ public class RodadasDAO {
 		LinkedList<Grupos> grupoC = obterGrupoC();
 		LinkedList<Grupos> grupoD = obterGrupoD();
 
-		LinkedList<Rodada> datas = obterRodadas();
+		LinkedList<DataRodada> datas = obterRodadas();
 
 		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<Jogo>();
 
@@ -279,10 +313,10 @@ public class RodadasDAO {
 		return grupos;
 	}
 
-	private LinkedList<Rodada> obterRodadas() throws SQLException {
+	private LinkedList<DataRodada> obterRodadas() throws SQLException {
 		CON = DBUtil.getInstance().getConnection();
 
-		LinkedList<Rodada> rodadas = new LinkedList<>();
+		LinkedList<DataRodada> rodadas = new LinkedList<>();
 
 		String sql = "SELECT * FROM rodada ORDER BY numeroRodada";
 
@@ -291,7 +325,7 @@ public class RodadasDAO {
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
-			Rodada r = new Rodada();
+			DataRodada r = new DataRodada();
 
 			r.setRodada(rs.getInt("numeroRodada"));
 			r.setDataRodada(rs.getDate("dataRodada"));

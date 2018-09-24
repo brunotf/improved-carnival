@@ -7,3 +7,5 @@ AS
 	INNER JOIN times tb
 	ON
 	j.idTimeB = tb.idTime
+
+SELECT * FROM v_jogos ORDER BY DATA_JOGO DESC

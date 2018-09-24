@@ -37,7 +37,6 @@ public class GrupoDAO {
 			if (saida == null) {
 				contador++;
 			}
-			System.out.println(saida);
 		}
 
 		cs.close();

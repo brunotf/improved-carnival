@@ -3,23 +3,50 @@ package modelo;
 import java.sql.Date;
 
 public class Rodada {
-	private int rodada = 0;
-	private Date dataRodada = null;
+	String timeA = "";
+	String timeB = "";
+	int golsA = 0;
+	int golsB = 0;
+	Date dataJogo = null;
 
-	public int getRodada() {
-		return rodada;
+	public String getTimeA() {
+		return timeA;
 	}
 
-	public void setRodada(int rodada) {
-		this.rodada = rodada;
+	public void setTimeA(String timeA) {
+		this.timeA = timeA;
 	}
 
-	public Date getDataRodada() {
-		return dataRodada;
+	public String getTimeB() {
+		return timeB;
 	}
 
-	public void setDataRodada(Date dataRodada) {
-		this.dataRodada = dataRodada;
+	public void setTimeB(String timeB) {
+		this.timeB = timeB;
+	}
+
+	public int getGolsA() {
+		return golsA;
+	}
+
+	public void setGolsA(int golsA) {
+		this.golsA = golsA;
+	}
+
+	public int getGolsB() {
+		return golsB;
+	}
+
+	public void setGolsB(int golsB) {
+		this.golsB = golsB;
+	}
+
+	public Date getDataJogo() {
+		return dataJogo;
+	}
+
+	public void setDataJogo(Date dataJogo) {
+		this.dataJogo = dataJogo;
 	}
 
 }
