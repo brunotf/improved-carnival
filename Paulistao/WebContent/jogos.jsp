@@ -52,9 +52,9 @@
 		<table class="table table-striped table-dark" id="tabela">
 			<tr>
 				<th scope="col">Time A</th>
-				<th scope="col">Time B</th>
 				<th scope="col">Gols A</th>
 				<th scope="col">Gols B</th>
+				<th scope="col">Time B</th>
 				<th scope="col">Data do Jogo</th>
 			</tr>
 			<%
@@ -62,9 +62,9 @@
 			%>
 			<tr>
 				<td scope="row"><%=r.getTimeA()%></td>
-				<td scope="row"><%=r.getTimeB()%></td>
 				<td scope="row"><%=r.getGolsA()%></td>
 				<td scope="row"><%=r.getGolsB()%></td>
+				<td scope="row"><%=r.getTimeB()%></td>
 				<td scope="row"><%=r.getDataJogo()%></td>
 			</tr>
 			<%

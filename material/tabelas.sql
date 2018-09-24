@@ -53,7 +53,7 @@ INSERT INTO times VALUES
 (12, 'Sociedade Esporte Palmeiras', 'São Paulo', 'Allianz Parque'),
 (13, 'Associação Atlética Ponte Preta', 'Campinas', 'Moisés Lucarelli'),
 (14, 'Red Bull Brasil', 'Campinas', 'Moisés Lucarelli'),
-(15, 'Rio Clario Futebol Clube', 'Rio Claro', 'Augusto Schmidt Filho'),
+(15, 'Rio Claro Futebol Clube', 'Rio Claro', 'Augusto Schmidt Filho'),
 (16, 'Santos Futebol Clube', 'Santos', 'Vila Belmiro'),
 (17, 'Esporte Clube São Bento', 'Sorocaba', 'Walter Ribeiro'),
 (18, 'São Bernardo Futebol Clube', 'São Bernardo do Campo', 'Primeiro de Maio'),

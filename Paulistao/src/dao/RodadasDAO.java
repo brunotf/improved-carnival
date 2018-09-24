@@ -26,7 +26,7 @@ public class RodadasDAO {
 		String sql = "SELECT * FROM v_jogos WHERE DATA_JOGO = ?";
 
 		PreparedStatement ps = CON.prepareStatement(sql);
-		
+
 		ps.setString(1, data);
 
 		ResultSet rs = ps.executeQuery();
@@ -64,11 +64,11 @@ public class RodadasDAO {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 5; j++) {
 
-				if (j == 1) {
+				if (j == 0) {
 
 					Jogo jogo = new Jogo();
 
-					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
+					jogo.setTimeA(grupoA.get(j).getIdTime());
 					jogo.setTimeB(grupoB.get(j).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
@@ -78,7 +78,28 @@ public class RodadasDAO {
 
 					Jogo jogo2 = new Jogo();
 
-					jogo2.setTimeA(grupoC.get(i % 5).getIdTime());
+					jogo2.setTimeA(grupoC.get(j).getIdTime());
+					jogo2.setTimeB(grupoD.get(j).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
+				} else if (i == 1) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(j).getIdTime());
+					jogo.setTimeB(grupoC.get(j).getIdTime());
+					jogo.setGolsA((int) (Math.random() * 12));
+					jogo.setGolsB((int) (Math.random() * 12));
+					jogo.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo);
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoB.get(j).getIdTime());
 					jogo2.setTimeB(grupoD.get(j).getIdTime());
 					jogo2.setGolsA((int) (Math.random() * 12));
 					jogo2.setGolsB((int) (Math.random() * 12));
@@ -90,29 +111,7 @@ public class RodadasDAO {
 
 					Jogo jogo = new Jogo();
 
-					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
-					jogo.setTimeB(grupoC.get(i % 5).getIdTime());
-					jogo.setGolsA((int) (Math.random() * 12));
-					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(i).getDataRodada());
-
-					rodadas.add(jogo);
-
-					Jogo jogo2 = new Jogo();
-
-					jogo2.setTimeA(grupoB.get(j).getIdTime());
-					jogo2.setTimeB(grupoD.get(j).getIdTime());
-					jogo2.setGolsA((int) (Math.random() * 12));
-					jogo2.setGolsB((int) (Math.random() * 12));
-					jogo2.setData(datas.get(i).getDataRodada());
-
-					rodadas.add(jogo2);
-
-				} else if (j == 3) {
-
-					Jogo jogo = new Jogo();
-
-					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
+					jogo.setTimeA(grupoA.get(j).getIdTime());
 					jogo.setTimeB(grupoD.get(j).getIdTime());
 					jogo.setGolsA((int) (Math.random() * 12));
 					jogo.setGolsB((int) (Math.random() * 12));
@@ -123,7 +122,29 @@ public class RodadasDAO {
 					Jogo jogo2 = new Jogo();
 
 					jogo2.setTimeA(grupoB.get(j).getIdTime());
-					jogo2.setTimeB(grupoC.get(i % 5).getIdTime());
+					jogo2.setTimeB(grupoC.get(j).getIdTime());
+					jogo2.setGolsA((int) (Math.random() * 12));
+					jogo2.setGolsB((int) (Math.random() * 12));
+					jogo2.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo2);
+
+				} else if (j == 3) {
+
+					Jogo jogo = new Jogo();
+
+					jogo.setTimeA(grupoA.get(j).getIdTime());
+					jogo.setTimeB(grupoB.get(j).getIdTime());
+					jogo.setGolsA((int) (Math.random() * 12));
+					jogo.setGolsB((int) (Math.random() * 12));
+					jogo.setData(datas.get(i).getDataRodada());
+
+					rodadas.add(jogo);
+
+					Jogo jogo2 = new Jogo();
+
+					jogo2.setTimeA(grupoC.get(j).getIdTime());
+					jogo2.setTimeB(grupoD.get(j).getIdTime());
 					jogo2.setGolsA((int) (Math.random() * 12));
 					jogo2.setGolsB((int) (Math.random() * 12));
 					jogo2.setData(datas.get(i).getDataRodada());
@@ -144,35 +165,14 @@ public class RodadasDAO {
 
 					Jogo jogo2 = new Jogo();
 
-					jogo2.setTimeA(grupoB.get(i % 5).getIdTime());
-					jogo2.setTimeB(grupoD.get(i % 5).getIdTime());
+					jogo2.setTimeA(grupoB.get(j).getIdTime());
+					jogo2.setTimeB(grupoD.get(j).getIdTime());
 					jogo2.setGolsA((int) (Math.random() * 12));
 					jogo2.setGolsB((int) (Math.random() * 12));
 					jogo2.setData(datas.get(i).getDataRodada());
 
 					rodadas.add(jogo2);
 
-				} else if (j == 0) {
-
-					Jogo jogo = new Jogo();
-
-					jogo.setTimeA(grupoA.get(i % 5).getIdTime());
-					jogo.setTimeB(grupoC.get(i % 5).getIdTime());
-					jogo.setGolsA((int) (Math.random() * 12));
-					jogo.setGolsB((int) (Math.random() * 12));
-					jogo.setData(datas.get(i).getDataRodada());
-
-					rodadas.add(jogo);
-
-					Jogo jogo2 = new Jogo();
-
-					jogo2.setTimeA(grupoB.get(i % 5).getIdTime());
-					jogo2.setTimeB(grupoD.get(i % 5).getIdTime());
-					jogo2.setGolsA((int) (Math.random() * 12));
-					jogo2.setGolsB((int) (Math.random() * 12));
-					jogo2.setData(datas.get(i).getDataRodada());
-
-					rodadas.add(jogo2);
 				}
 
 			}
@@ -203,7 +203,6 @@ public class RodadasDAO {
 
 			saida = cs.getString(6);
 
-			System.out.println(saida);
 		}
 
 		cs.close();
