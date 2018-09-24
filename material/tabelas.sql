@@ -10,7 +10,6 @@ CREATE TABLE times (
 )
 
 
-
 DROP TABLE grupos
 GO
 CREATE TABLE grupos (
@@ -28,10 +27,6 @@ CREATE TABLE jogos (
 	golsTimeB INT NULL,
 	dataJogo DATETIME NULL
 )
-
-SELECT * FROM rodada ORDER BY numeroRodada
-
-SELECT * FROM jogos
 
 CREATE TABLE rodada (
 	numeroRodada INT NOT NULL,
