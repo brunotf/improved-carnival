@@ -52,14 +52,31 @@ public class RodadasDAO {
 
 	public void definirRodadas() throws SQLException {
 
-		LinkedList<Grupos> grupoA = obterGrupoA();
-		LinkedList<Grupos> grupoB = obterGrupoB();
-		LinkedList<Grupos> grupoC = obterGrupoC();
-		LinkedList<Grupos> grupoD = obterGrupoD();
+		LinkedList<Grupos> grupoA = obterGrupo("A");
+		LinkedList<Grupos> grupoB = obterGrupo("B");
+		LinkedList<Grupos> grupoC = obterGrupo("C");
+		LinkedList<Grupos> grupoD = obterGrupo("D");
 
 		LinkedList<DataRodada> datas = obterRodadas();
 
 		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<Jogo>();
+		
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				
+				Jogo jogo = new Jogo();
+
+				jogo.setTimeA(grupoA.get(i).getIdTime());
+				jogo.setTimeB(grupoB.get(j).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(i).getDataRodada());
+
+				rodadas.add(jogo);
+				
+			}
+			
+		}
 
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 5; j++) {
@@ -204,98 +221,22 @@ public class RodadasDAO {
 			saida = cs.getString(6);
 
 		}
-		
+
 		System.out.println(saida);
 
 		cs.close();
 	}
 
-	private LinkedList<Grupos> obterGrupoA() throws SQLException {
+	public LinkedList<Grupos> obterGrupo(String grupo) throws SQLException {
 		CON = DBUtil.getInstance().getConnection();
 
 		LinkedList<Grupos> grupos = new LinkedList<>();
 
-		String sql = "SELECT * FROM grupos WHERE grupo = 'A' ORDER BY idTime";
+		String sql = "SELECT * FROM grupos WHERE grupo = ? ORDER BY idTime";
 
 		PreparedStatement ps = CON.prepareStatement(sql);
 
-		ResultSet rs = ps.executeQuery();
-
-		while (rs.next()) {
-			Grupos g = new Grupos();
-
-			g.setGrupo(rs.getString("grupo"));
-			g.setIdTime(rs.getInt("idTime"));
-
-			grupos.add(g);
-		}
-
-		rs.close();
-		ps.close();
-
-		return grupos;
-	}
-
-	private LinkedList<Grupos> obterGrupoB() throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
-
-		LinkedList<Grupos> grupos = new LinkedList<>();
-
-		String sql = "SELECT * FROM grupos WHERE grupo = 'B' ORDER BY idTime";
-
-		PreparedStatement ps = CON.prepareStatement(sql);
-
-		ResultSet rs = ps.executeQuery();
-
-		while (rs.next()) {
-			Grupos g = new Grupos();
-
-			g.setGrupo(rs.getString("grupo"));
-			g.setIdTime(rs.getInt("idTime"));
-
-			grupos.add(g);
-		}
-
-		rs.close();
-		ps.close();
-
-		return grupos;
-	}
-
-	private LinkedList<Grupos> obterGrupoC() throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
-
-		LinkedList<Grupos> grupos = new LinkedList<>();
-
-		String sql = "SELECT * FROM grupos WHERE grupo = 'C' ORDER BY idTime";
-
-		PreparedStatement ps = CON.prepareStatement(sql);
-
-		ResultSet rs = ps.executeQuery();
-
-		while (rs.next()) {
-			Grupos g = new Grupos();
-
-			g.setGrupo(rs.getString("grupo"));
-			g.setIdTime(rs.getInt("idTime"));
-
-			grupos.add(g);
-		}
-
-		rs.close();
-		ps.close();
-
-		return grupos;
-	}
-
-	private LinkedList<Grupos> obterGrupoD() throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
-
-		LinkedList<Grupos> grupos = new LinkedList<>();
-
-		String sql = "SELECT * FROM grupos WHERE grupo = 'D' ORDER BY idTime";
-
-		PreparedStatement ps = CON.prepareStatement(sql);
+		ps.setString(1, grupo);
 
 		ResultSet rs = ps.executeQuery();
 
