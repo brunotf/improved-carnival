@@ -1,6 +1,6 @@
 package modelo;
 
-public class Grupos {
+public class Grupo {
 	
 	private int idTime = 0;
 	private String grupo = "";

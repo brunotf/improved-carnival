@@ -9,15 +9,15 @@ import java.sql.Types;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import modelo.Grupos;
+import modelo.Grupo;
 import modelo.Time;
 
 public class GrupoDAO {
 
-	private Connection CON;
+	private Connection CONEXAO;
 
 	public String dividirGrupos() throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
+		CONEXAO = DBUtil.getInstance().getConnection();
 
 		HashSet<Time> times = times();
 
@@ -27,7 +27,7 @@ public class GrupoDAO {
 
 		String sql = "{CALL sp_dividirGrupos(?,?)}";
 
-		CallableStatement cs = CON.prepareCall(sql);
+		CallableStatement cs = CONEXAO.prepareCall(sql);
 
 		for (Time t : times) {
 			cs.setString(1, t.getNome());
@@ -48,22 +48,23 @@ public class GrupoDAO {
 		return saida;
 	}
 
-	public LinkedList<Grupos> mostrarGrupos() throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
+	public LinkedList<Grupo> obterTodosGrupos() throws SQLException {
+		CONEXAO = DBUtil.getInstance().getConnection();
 
-		LinkedList<Grupos> grupos = new LinkedList<>();
+		LinkedList<Grupo> grupos = new LinkedList<>();
 
 		String sql = "SELECT * FROM v_grupos ORDER BY grupo";
 
-		PreparedStatement ps = CON.prepareStatement(sql);
+		PreparedStatement ps = CONEXAO.prepareStatement(sql);
 
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
-			Grupos g = new Grupos();
+			Grupo g = new Grupo();
 
-			g.setNomeTime(rs.getString("nomeTime"));
+			g.setIdTime(rs.getInt("idTime"));
 			g.setGrupo(rs.getString("grupo"));
+			g.setNomeTime(rs.getString("nomeTime"));
 
 			grupos.add(g);
 		}
@@ -73,15 +74,44 @@ public class GrupoDAO {
 
 		return grupos;
 	}
+	
+	public LinkedList<Grupo> obterGrupo(String letraGrupo) throws SQLException {
+		CONEXAO = DBUtil.getInstance().getConnection();
+
+		LinkedList<Grupo> grupo = new LinkedList<>();
+
+		String sql = "SELECT * FROM v_grupos WHERE grupo = ?";
+
+		PreparedStatement ps = CONEXAO.prepareStatement(sql);
+
+		ps.setString(1, letraGrupo);
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			Grupo g = new Grupo();
+			
+			g.setIdTime(rs.getInt("idTime"));
+			g.setGrupo(rs.getString("grupo"));
+			g.setNomeTime(rs.getString("nomeTime"));
+
+			grupo.add(g);
+		}
+
+		rs.close();
+		ps.close();
+
+		return grupo;
+	}
 
 	private HashSet<Time> times() throws SQLException {
-		CON = DBUtil.getInstance().getConnection();
+		CONEXAO = DBUtil.getInstance().getConnection();
 
 		HashSet<Time> times = new HashSet<>();
 
 		String sql = "SELECT * FROM times";
 
-		PreparedStatement ps = CON.prepareStatement(sql);
+		PreparedStatement ps = CONEXAO.prepareStatement(sql);
 
 		ResultSet rs = ps.executeQuery();
 

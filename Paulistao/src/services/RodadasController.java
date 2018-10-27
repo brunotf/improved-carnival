@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.RodadasDAO;
+import dao.RodadaDAO;
 
 @WebServlet("/RodadasController")
 public class RodadasController extends HttpServlet {
@@ -18,7 +18,7 @@ public class RodadasController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RodadasDAO rDao = new RodadasDAO();
+		RodadaDAO rDao = new RodadaDAO();
 		
 		try {
 			rDao.definirRodadas();

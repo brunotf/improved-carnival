@@ -1,6 +1,7 @@
 package modelo;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class Rodada {
 	String timeA = "";
@@ -47,6 +48,34 @@ public class Rodada {
 
 	public void setDataJogo(Date dataJogo) {
 		this.dataJogo = dataJogo;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(dataJogo, golsA, golsB, timeA, timeB);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Rodada)) {
+			return false;
+		}
+		Rodada other = (Rodada) obj;
+		return Objects.equals(dataJogo, other.dataJogo) && golsA == other.golsA && golsB == other.golsB
+				&& Objects.equals(timeA, other.timeA) && Objects.equals(timeB, other.timeB);
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(timeA + " contra " + timeB);
+		return sb.toString();
 	}
 
 }

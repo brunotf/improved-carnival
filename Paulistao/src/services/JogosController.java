@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.RodadasDAO;
+import dao.RodadaDAO;
 import modelo.Rodada;
 
 @WebServlet("/JogosController")
@@ -42,7 +42,7 @@ public class JogosController extends HttpServlet {
 			rodada = new LinkedList<>();
 		}
 
-		RodadasDAO rDao = new RodadasDAO();
+		RodadaDAO rDao = new RodadaDAO();
 
 		try {
 			rodada = rDao.buscarRodada(dataFormatada);

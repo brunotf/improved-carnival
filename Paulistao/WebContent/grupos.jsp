@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="modelo.Grupos, java.util.LinkedList"%>
+<%@ page import="modelo.Grupo,java.util.LinkedList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,16 +22,15 @@
 
 	<%
 		String msg = (String) session.getAttribute("MESSAGE");
-		
-		if (msg != null && msg != "null") {
 			
+			if (msg != null && msg != "null") {
 	%>
 	<div class="alert alert-sucess" role="alert">
 		<%=msg%>
 	</div>
 	<%
 		session.setAttribute("MESSAGE", null);
-		}
+			}
 	%>
 	
 	<div class="container">
@@ -51,9 +50,9 @@
 
 	<%
 		@SuppressWarnings("unchecked")
-		LinkedList<Grupos> tabelaGrupos = (LinkedList<Grupos>) session.getAttribute("TABELA_GRUPOS");
-		session.setAttribute("TABELA_GRUPOS", null);
-		if (tabelaGrupos != null && tabelaGrupos.size() > 0) {
+			LinkedList<Grupo> grupoA = (LinkedList<Grupo>) session.getAttribute("GRUPO_A");
+			session.setAttribute("GRUPO_A", null);
+			if (grupoA != null && grupoA.size() > 0) {
 	%>
 	<table class="table table-striped table-dark" id="tabela">
 		<tr>
@@ -61,7 +60,7 @@
 			<th scope="col">Time</th>
 		</tr>
 		<%
-			for (Grupos g : tabelaGrupos) {
+			for (Grupo g : grupoA) {
 		%>
 		<tr>
 			<td scope="row"><%=g.getGrupo()%></td>
