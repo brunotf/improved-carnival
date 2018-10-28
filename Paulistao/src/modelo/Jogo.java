@@ -1,6 +1,8 @@
 package modelo;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public class Jogo {
@@ -69,6 +71,25 @@ public class Jogo {
 		Jogo other = (Jogo) obj;
 		return Objects.equals(data, other.data) && golsA == other.golsA && golsB == other.golsB && timeA == other.timeA
 				&& timeB == other.timeB;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(timeA + " contra " + timeB);
+		String data = this.data.toString();
+		SimpleDateFormat dataHtml = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dataSql = new SimpleDateFormat("dd/MM/yyyy");
+		String dataFormatada = "";
+
+		try {
+			dataFormatada = dataSql.format(dataHtml.parse(data));
+		} catch (ParseException e) {
+			e.printStackTrace(System.out);
+		}
+		
+		sb.append(" - dia: " + dataFormatada);
+		return sb.toString();
 	}
 
 }

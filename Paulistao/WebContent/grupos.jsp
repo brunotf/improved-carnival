@@ -22,17 +22,17 @@
 
 	<%
 		String msg = (String) session.getAttribute("MESSAGE");
-			
-			if (msg != null && msg != "null") {
+
+		if (msg != null && msg != "null") {
 	%>
 	<div class="alert alert-sucess" role="alert">
 		<%=msg%>
 	</div>
 	<%
 		session.setAttribute("MESSAGE", null);
-			}
+		}
 	%>
-	
+
 	<div class="container">
 		<form action="./GruposController" method="post">
 			<div class="btn-group btn-group-justified">
@@ -48,29 +48,134 @@
 		</form>
 	</div>
 
+
+
 	<%
 		@SuppressWarnings("unchecked")
-			LinkedList<Grupo> grupoA = (LinkedList<Grupo>) session.getAttribute("GRUPO_A");
-			session.setAttribute("GRUPO_A", null);
-			if (grupoA != null && grupoA.size() > 0) {
+		LinkedList<Grupo> grupoA = (LinkedList<Grupo>) session.getAttribute("GRUPO_A");
+		session.setAttribute("GRUPO_A", null);
+
+		if (grupoA != null && grupoA.size() > 0) {
 	%>
-	<table class="table table-striped table-dark" id="tabela">
-		<tr>
-			<th scope="col">Grupo</th>
-			<th scope="col">Time</th>
-		</tr>
-		<%
-			for (Grupo g : grupoA) {
-		%>
-		<tr>
-			<td scope="row"><%=g.getGrupo()%></td>
-			<td scope="row"><%=g.getNomeTime()%></td>
-		</tr>
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-12">
+			<table class="table table-striped table-dark" id="tabela">
+				<tr>
+					<th scope="col">Grupo</th>
+					<th scope="col">Time</th>
+				</tr>
+				<%
+					for (Grupo g : grupoA) {
+				%>
+				<tr>
+					<td scope="row"><%=g.getGrupo()%></td>
+					<td scope="row"><%=g.getNomeTime()%></td>
+				</tr>
+				<%
+					}
+				%>
+
+			</table>
+		</div>
+
 		<%
 			}
 		%>
-		
-	</table>
+
+		<%
+			@SuppressWarnings("unchecked")
+			LinkedList<Grupo> grupoB = (LinkedList<Grupo>) session.getAttribute("GRUPO_B");
+			session.setAttribute("GRUPO_B", null);
+
+			if (grupoB != null && grupoB.size() > 0) {
+		%>
+		<div class="col-lg-6 col-md-6 col-sm-12">
+			<table class="table table-striped table-dark" id="tabela">
+				<tr>
+					<th scope="col">Grupo</th>
+					<th scope="col">Time</th>
+				</tr>
+				<%
+					for (Grupo g : grupoB) {
+				%>
+				<tr>
+					<td scope="row"><%=g.getGrupo()%></td>
+					<td scope="row"><%=g.getNomeTime()%></td>
+				</tr>
+				<%
+					}
+				%>
+
+			</table>
+		</div>
+	</div>
+	<%
+		}
+	%>
+
+	<%
+		@SuppressWarnings("unchecked")
+		LinkedList<Grupo> grupoC = (LinkedList<Grupo>) session.getAttribute("GRUPO_C");
+		session.setAttribute("GRUPO_C", null);
+
+		if (grupoC != null && grupoC.size() > 0) {
+	%>
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-12">
+			<table class="table table-striped table-dark" id="tabela">
+				<tr>
+					<th scope="col">Grupo</th>
+					<th scope="col">Time</th>
+				</tr>
+				<%
+					for (Grupo g : grupoC) {
+				%>
+				<tr>
+					<td scope="row"><%=g.getGrupo()%></td>
+					<td scope="row"><%=g.getNomeTime()%></td>
+				</tr>
+				<%
+					}
+				%>
+
+			</table>
+		</div>
+
+
+
+		<%
+			}
+		%>
+
+		<%
+			@SuppressWarnings("unchecked")
+			LinkedList<Grupo> grupoD = (LinkedList<Grupo>) session.getAttribute("GRUPO_D");
+			session.setAttribute("GRUPO_D", null);
+
+			if (grupoD != null && grupoD.size() > 0) {
+		%>
+		<div class="col-lg-6 col-md-6 col-sm-12">
+			<table class="table table-striped table-dark" id="tabela">
+				<tr>
+					<th scope="col">Grupo</th>
+					<th scope="col">Time</th>
+				</tr>
+				<%
+					for (Grupo g : grupoD) {
+				%>
+				<tr>
+					<td scope="row"><%=g.getGrupo()%></td>
+					<td scope="row"><%=g.getNomeTime()%></td>
+				</tr>
+				<%
+					}
+				%>
+
+			</table>
+		</div>
+	</div>
+
+
 	<%
 		}
 	%>

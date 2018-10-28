@@ -36,8 +36,8 @@ public class RodadaDAO {
 
 			r.setTimeA(rs.getString("TIME A"));
 			r.setTimeB(rs.getString("TIME B"));
-			r.setGolsA(rs.getInt("GOLS_A"));
-			r.setGolsB(rs.getInt("GOLS_B"));
+			r.setGolsA(rs.getInt("GOLS A"));
+			r.setGolsB(rs.getInt("GOLS B"));
 			r.setDataJogo(rs.getDate("DATA_JOGO"));
 
 			rodada.add(r);
@@ -51,7 +51,7 @@ public class RodadaDAO {
 	}
 
 	public void definirRodadas() throws SQLException {
-		
+
 		GrupoDAO gDao = new GrupoDAO();
 
 		LinkedList<Grupo> grupoA = gDao.obterGrupo("A");
@@ -63,46 +63,248 @@ public class RodadaDAO {
 
 		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<Jogo>();
 
-		int incremento = 1;
+		// Grupo A com grupo B
+		grupoAxB(grupoA, grupoB, datas);
+
+		// Grupo C com o grupo D
+		grupoCxD(grupoC, grupoD, datas);
+
+		// Grupo A com o grupo C
+		grupoAxC(grupoA, grupoC, datas);
+
+		// Grupo B com o grupo D
+		grupoBxD(grupoB, grupoD, datas);
+
+		// Grupo A com o grupo D
+		grupoAxD(grupoA, grupoD, datas);
+
+		// Grupo B com o grupo C
+		grupoBxC(grupoB, grupoC, datas);
+	}
+
+	private void grupoAxB(LinkedList<Grupo> grupoA, LinkedList<Grupo> grupoB,
+						  LinkedList<DataRodada> datas) throws SQLException {
+
+		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<>();
+
+		int rodada = 0;
 
 		for (int i = 0; i < 5; i++) {
-			for (int inicio = i; inicio < 5; inicio++) {
+			int contador = 0;
 
-				Jogo j1 = new Jogo();
+			for (int inicio = i; contador < 5; contador++) {
 
-				j1.setTimeA(grupoA.get(i).getIdTime());
-				j1.setTimeB(grupoB.get(inicio).getIdTime());
-				j1.setGolsA((int) (Math.random() * 12));
-				j1.setGolsB((int) (Math.random() * 12));
-				j1.setData(datas.get(i).getDataRodada());
+				Jogo jogo = new Jogo();
 
-				rodadas.add(j1);
+				jogo.setTimeA(grupoA.get(i).getIdTime());
+				jogo.setTimeB(grupoB.get(inicio).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(rodada).getDataRodada());
 
-				Jogo j2 = new Jogo();
+				rodadas.add(jogo);
 
-				j2.setTimeA(grupoA.get(i).getIdTime());
-				j2.setTimeB(grupoB.get(inicio).getIdTime());
-				j2.setGolsA((int) (Math.random() * 12));
-				j2.setGolsB((int) (Math.random() * 12));
-				j2.setData(datas.get(i).getDataRodada());
-
-				rodadas.add(j2);
+				inicio++;
 
 				if (inicio > 4)
 					inicio = 0;
 
-				incremento++;
-				if (incremento == 5) {
-					break;
-				}
+				rodada++;
 
 			}
-
+			rodada = 0;
 		}
+
+		inserirRodadas(rodadas);
 
 	}
 
-	private void inserirRodadas(LinkedHashSet<Jogo> rodada) throws SQLException {
+	private void grupoCxD(LinkedList<Grupo> grupoC, LinkedList<Grupo> grupoD, 
+						  LinkedList<DataRodada> datas)	throws SQLException {
+
+		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<>();
+
+		int rodada = 0;
+
+		for (int i = 0; i < 5; i++) {
+			int contador = 0;
+
+			for (int inicio = i; contador < 5; contador++) {
+
+				Jogo jogo = new Jogo();
+
+				jogo.setTimeA(grupoC.get(i).getIdTime());
+				jogo.setTimeB(grupoD.get(inicio).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(rodada).getDataRodada());
+
+				rodadas.add(jogo);
+
+				inicio++;
+
+				if (inicio > 4)
+					inicio = 0;
+
+				rodada++;
+
+			}
+			rodada = 0;
+		}
+
+		inserirRodadas(rodadas);
+
+	}
+
+	private void grupoAxC(LinkedList<Grupo> grupoA, LinkedList<Grupo> grupoC, 
+						  LinkedList<DataRodada> datas) throws SQLException {
+		
+		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<>();
+
+		int rodada = 5;
+
+		for (int i = 0; i < 5; i++) {
+			int contador = 0;
+
+			for (int inicio = i; contador < 5; contador++) {
+
+				Jogo jogo = new Jogo();
+
+				jogo.setTimeA(grupoA.get(i).getIdTime());
+				jogo.setTimeB(grupoC.get(inicio).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(rodada).getDataRodada());
+
+				rodadas.add(jogo);
+
+				inicio++;
+
+				if (inicio > 4)
+					inicio = 0;
+
+				rodada++;
+
+			}
+			rodada = 5;
+		}
+
+		inserirRodadas(rodadas);
+
+	}
+
+	private void grupoBxD(LinkedList<Grupo> grupoB, LinkedList<Grupo> grupoD, 
+						  LinkedList<DataRodada> datas)	throws SQLException {
+		
+		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<>();
+
+		int rodada = 5;
+
+		for (int i = 0; i < 5; i++) {
+			int contador = 0;
+
+			for (int inicio = i; contador < 5; contador++) {
+
+				Jogo jogo = new Jogo();
+
+				jogo.setTimeA(grupoB.get(i).getIdTime());
+				jogo.setTimeB(grupoD.get(inicio).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(rodada).getDataRodada());
+
+				rodadas.add(jogo);
+
+				inicio++;
+
+				if (inicio > 4)
+					inicio = 0;
+
+				rodada++;
+
+			}
+			rodada = 5;
+		}
+
+		inserirRodadas(rodadas);
+
+	}
+
+	private void grupoAxD(LinkedList<Grupo> grupoA, LinkedList<Grupo> grupoD, 
+						  LinkedList<DataRodada> datas) throws SQLException {
+		
+		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<>();
+
+		int rodada = 10;
+
+		for (int i = 0; i < 5; i++) {
+			int contador = 0;
+
+			for (int inicio = i; contador < 5; contador++) {
+
+				Jogo jogo = new Jogo();
+
+				jogo.setTimeA(grupoA.get(i).getIdTime());
+				jogo.setTimeB(grupoD.get(inicio).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(rodada).getDataRodada());
+
+				rodadas.add(jogo);
+
+				inicio++;
+
+				if (inicio > 4)
+					inicio = 0;
+
+				rodada++;
+
+			}
+			rodada = 10;
+		}
+
+		inserirRodadas(rodadas);
+
+	}
+
+	private void grupoBxC(LinkedList<Grupo> grupoB, LinkedList<Grupo> grupoC, 
+						  LinkedList<DataRodada> datas)	throws SQLException {
+		
+		LinkedHashSet<Jogo> rodadas = new LinkedHashSet<>();
+
+		int rodada = 10;
+
+		for (int i = 0; i < 5; i++) {
+			int contador = 0;
+
+			for (int inicio = i; contador < 5; contador++) {
+
+				Jogo jogo = new Jogo();
+
+				jogo.setTimeA(grupoB.get(i).getIdTime());
+				jogo.setTimeB(grupoC.get(inicio).getIdTime());
+				jogo.setGolsA((int) (Math.random() * 12));
+				jogo.setGolsB((int) (Math.random() * 12));
+				jogo.setData(datas.get(rodada).getDataRodada());
+
+				rodadas.add(jogo);
+
+				inicio++;
+
+				if (inicio > 4)
+					inicio = 0;
+
+				rodada++;
+
+			}
+			rodada = 10;
+		}
+
+		inserirRodadas(rodadas);
+
+	}
+
+	public void inserirRodadas(LinkedHashSet<Jogo> rodada) throws SQLException {
 		CONEXAO = DBUtil.getInstance().getConnection();
 
 		String sql = "{CALL sp_inserirRodadas(?, ?, ?, ?, ?, ?)}";
@@ -130,8 +332,7 @@ public class RodadaDAO {
 		cs.close();
 	}
 
-
-	private LinkedList<DataRodada> obterRodadas() throws SQLException {
+	public LinkedList<DataRodada> obterRodadas() throws SQLException {
 		CONEXAO = DBUtil.getInstance().getConnection();
 
 		LinkedList<DataRodada> rodadas = new LinkedList<>();
@@ -157,5 +358,4 @@ public class RodadaDAO {
 
 		return rodadas;
 	}
-
 }
