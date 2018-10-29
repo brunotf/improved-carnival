@@ -140,4 +140,4 @@ END
 
 select * from fn_campeonato() ORDER BY pontos DESC, vitorias DESC, golsMarcados DESC, saldoGols DESC
 
-SELECT TOP(4) * FROM fn_campeonato() ORDER BY pontos ASC, vitorias ASC, golsMarcados ASC
+SELECT TOP(4) * FROM fn_campeonato() ORDER BY pontos ASC, vitorias ASC, golsMarcados ASC, saldoGols ASC

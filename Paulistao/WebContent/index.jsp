@@ -28,6 +28,7 @@
 				<a class="nav-item nav-link" href="./rodadas.jsp">Rodadas</a>
 				<a class="nav-item nav-link" href="./jogos.jsp">Jogos</a>
 				<a class="nav-item nav-link" href="./classificacao.jsp">Tabela do Paulistão</a>
+				<a class="nav-item nav-link" href="./quartas.jsp">Projeção Quartas-de-Finais</a>
 			</div>
 		</div>
 	</nav>
