@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import dao.RodadaDAO;
 import modelo.Rodada;
 
+@SuppressWarnings("unchecked")
 @WebServlet("/JogosController")
 public class JogosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

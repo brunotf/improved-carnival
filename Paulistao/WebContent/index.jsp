@@ -23,10 +23,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link active" href="#">Home <span	class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link active" href="./index.jsp">Home <span	class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="./grupos.jsp">Grupos</a>
 				<a class="nav-item nav-link" href="./rodadas.jsp">Rodadas</a>
 				<a class="nav-item nav-link" href="./jogos.jsp">Jogos</a>
+				<a class="nav-item nav-link" href="./classificacao.jsp">Tabela do Paulistão</a>
 			</div>
 		</div>
 	</nav>

@@ -1,6 +1,6 @@
-DROP FUNCTION fn_validagrupo
+DROP FUNCTION fn_campeonato
 GO
-CREATE FUNCTION fn_validagrupo(@GRUPO CHAR(1))
+CREATE FUNCTION fn_campeonato()
 RETURNS @tabela TABLE (
 	 nomeTime VARCHAR(100),
 	 numJogosDisputados INT,
@@ -37,9 +37,9 @@ BEGIN
 			SET @golsSofridos = 0
 			SET @saldoGols = 0
 
-			DECLARE c_grupo CURSOR FOR SELECT idTime FROM grupos WHERE grupo = @GRUPO
-			OPEN c_grupo
-			FETCH NEXT FROM c_grupo INTO @idTime
+			DECLARE c_time CURSOR FOR SELECT idTime FROM times
+			OPEN c_time
+			FETCH NEXT FROM c_time INTO @idTime
 			WHILE @@FETCH_STATUS = 0
 			BEGIN
 				SET @numJogosDisputados = (SELECT COUNT(*) FROM jogos WHERE idTimeA = @idTime OR idTimeB = @idTime) 
@@ -128,25 +128,16 @@ BEGIN
 				SET @saldoGols = 0
 				SET @pontos = 0
 
-				FETCH NEXT FROM c_grupo INTO @idTime
+				FETCH NEXT FROM c_time INTO @idTime
 			END
 
-			CLOSE c_grupo
-			DEALLOCATE c_grupo
+			CLOSE c_time
+			DEALLOCATE c_time
 
 			RETURN
 
 END
 
-declare @grupo CHAR(1)
-set @grupo = 'A'
-select top(2) * from fn_validagrupo(@grupo) ORDER BY pontos DESC, vitorias DESC, golsMarcados DESC, saldoGols DESC
+select * from fn_campeonato() ORDER BY pontos DESC, vitorias DESC, golsMarcados DESC, saldoGols DESC
 
-select * from fn_validagrupo(@grupo) ORDER BY pontos DESC
-
-declare @grupo CHAR(1)
-set @grupo = 'A'
-SELECT TOP(2) * FROM fn_validagrupo(@grupo) ORDER BY pontos ASC, vitorias ASC, golsMarcados ASC, saldoGols ASC
-
-
-SELECT * FROM v_jogos WHERE [TIME A] = 'São Paulo Futebol Clube' OR [TIME B] = 'São Paulo Futebol Clube'
+SELECT TOP(4) * FROM fn_campeonato() ORDER BY pontos ASC, vitorias ASC, golsMarcados ASC
